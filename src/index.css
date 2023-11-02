@@ -1,0 +1,11 @@
+html, body, a, h1{
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  font-family:'Segoe UI','Söhne','ui-sans-serif','system-ui','-apple-system','Roboto','Ubuntu','Cantarell','Noto Sans','sans-serif','Helvetica Neue','Arial','Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol','Noto Color Emoji';
+  /* display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh; */
+}

@@ -1,0 +1,611 @@
+#root {
+  width: 100%;
+  height: 100%;
+  background-color: gray;
+  overflow: hidden; 
+  display: flex;
+  position: relative;
+}
+
+/* CSS for theme transition effect */
+.theme-transition {
+  transition: all 3.3s ease-in-out; /* Adjust the duration and timing function as desired */
+}
+
+/* ------------------- 文字滚读动画 --------------------*/
+/* Define the animation keyframes */
+@keyframes charLoading {
+  from {
+    width: 0px;
+  }
+  to {
+    width: 244px;
+  }
+}
+
+.text-container {
+  display: flex;
+  overflow: hidden;
+  white-space: nowrap;
+  animation: charLoading 2.5s linear 3s;
+}
+
+/* 发送按钮三个圆点 */
+@keyframes ellipsis  {
+  from {
+    width: 0px;
+  }
+  to {
+    width: 24px;
+  }
+}
+
+.dot-content:after {
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: bottom;
+  animation: ellipsis 1s infinite;
+  content: "•••";
+  color: rgb(128, 128, 145);
+}
+
+/* 逐个打字光栅 */
+@keyframes blink  {
+  0%,100% {
+    background-color: transparent;
+  }
+  50% {
+    background-color: rgb(217, 217, 222);
+  }
+}
+
+.markdown-cursor > :last-child:after {
+  content: "";
+  vertical-align: middle;
+  position: relative;
+  display: inline-block;
+  width: 6px;
+  height: 20px;
+  /* top: -8px; */
+  left: -3px;
+  animation: blink 0.2s infinite steps(1,start);
+}
+
+/* ------------------- 自适应屏幕尺寸 --------------------*/
+
+@media screen and (max-width: 777px) { 
+  #NavigationBar {
+    display: none;
+  }
+  .ToolBar {
+    visibility:visible !important;
+  }
+  .ContentPanel {
+    padding-top: 43px;
+  }
+  .FootPanel {
+    width: calc(100vw - 8px) !important;
+  }
+  .codePre {
+    width: calc(100vw - 140px);
+  }
+  .TopPageBar {
+    display: none !important;
+  }
+  /* .BottomPageBar {
+    display: flex !important;
+  } */
+}
+
+@media screen and (min-width: 777px) {
+  .codePre {
+    width: calc(100vw - 400px);
+  }
+}
+
+/* -------------------------- 左侧导航栏 ---------------------------- */
+.NavigationBarBase {
+  width: 260px;
+  height: 100%;
+  padding: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  background-color:rgb(32,33,35);
+}
+
+/* -------------------------- 按钮 ---------------------------- */
+.NewChatButton {
+  display: flex;
+  height: 46px;
+  padding: 12px;
+  transition-duration: .2s;
+  --tw-text-opacity: 1;
+  color: rgba(255,255,255,var(--tw-text-opacity));
+  border-radius: 0.375rem;
+  --bs-border-width: 1px;
+  --bs-border-color: hsla(0,0%,100%,.2);
+  gap: 0.75rem;
+  align-items: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  text-decoration: inherit;
+  box-sizing: border-box;
+  font-size: .875rem;
+  line-height: 1.25rem;
+  margin-bottom: 0.25rem;
+}
+
+.NewChatButton:hover {
+  color: rgba(255,255,255,var(--tw-text-opacity));
+  background-color: rgb(43,44,47);
+}
+
+.ChatButtonLink, .SystemButtonLink {
+  height: 46px;
+  --tw-text-opacity: 1;
+  color: rgba(255,255,255,var(--tw-text-opacity));
+  cursor: pointer;
+  text-decoration: inherit;
+  font-size: .875rem;
+  line-height: 1.25rem;
+  position: relative;
+}
+
+.SystemButtonLink {
+  margin-top: 4px;
+}
+
+.ChatButton, .ChatButtonActive, .SystemButton {
+  width: 244px;
+  color: rgba(255,255,255,var(--tw-text-opacity));
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 12px;
+  border-radius: 0.375rem;
+  transition-duration: .1s;
+}
+
+.ChatButton:hover {
+  color: rgba(255,255,255,var(--tw-text-opacity));
+  background-color: rgb(43,44,47);
+}
+
+.ChatButtonActive {
+  background-color: rgb(52,53,65);
+}
+
+.ChatButtonToolBar {
+  --tw-text-opacity: 0.7;
+  color: rgba(255,255,255,var(--tw-text-opacity));
+  float:right;
+  position:absolute;
+  top: 12px;
+  left: 197px;
+}
+
+.ChatButtonMouseOver:hover {
+  --tw-text-opacity: 1;
+  color: rgba(255,255,255,var(--tw-text-opacity));
+}
+
+.ChatButtonEditing {
+  margin-left: -3px;
+  height: 20px;
+  width: 150px;
+  border: 1px solid rgb(37,99,235);
+  border-radius: 0px;
+  background-color: rgb(52, 53, 65);
+  --tw-text-opacity: 1;
+  color: rgba(255,255,255,var(--tw-text-opacity));
+  outline:0px;
+}
+
+.SystemButton:hover {
+  color: rgba(255,255,255,var(--tw-text-opacity));
+  background-color: rgb(43,44,47);
+}
+
+.GreenButton {
+  --bs-btn-color: white !important;
+  --bs-btn-bg: rgb(16,163,127) !important;
+  --bs-btn-hover-bg: rgb(26,127,100) !important;
+  --bs-btn-hover-color: white !important;
+  --bs-btn-active-color: white !important;
+  --bs-btn-active-bg: rgb(26,127,100) !important;
+}
+ 
+.BottomButton {
+  --bs-btn-font-size: .75rem !important;
+  --bs-btn-focus-box-shadow: none !important;
+  padding-right: 0px !important;
+}
+
+/* -------------------------- 滚动条 ---------------------------- */
+
+.scrollbar:hover {
+  overflow: auto;
+}
+
+.scrollbar {
+  overflow-y: scroll;
+  overflow: hidden;
+}
+
+.scrollbar2 {
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+}
+
+.force-overflow {
+  min-height:50vh;
+}
+
+.scrollbar-primary::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background-color: rgb(52, 53, 65); 
+}
+
+.scrollbar-primary::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  background-color: rgb(86, 88, 105);
+}
+
+.scrollbar-primary-dark::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background-color: rgb(32, 33, 35);
+}
+
+.scrollbar-primary-dark::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  background-color: rgb(86, 88, 105);
+}
+
+/* .scrollbar-primary {
+  scrollbar-color: #4285F4 #F5F5F5;
+} */
+
+.listGroup {
+  padding-top: 4px;
+  height: 248px;
+  color: transparent;
+  border-top-width: 1px;
+	border-style: solid;
+	border-top-color: rgb(77, 77, 79);
+  /* background-color: rgb(16, 66, 4); */
+}
+
+.ContentPanel {
+  height: 100vh;
+  background-color: rgb(52, 53, 65);
+}
+
+.ContentPanelH1 {
+  margin-top: 20vh !important;
+  margin-bottom: 4rem;
+  font-size: 2.25rem;
+  font-weight: 700;
+  line-height: 2.5rem;
+  color: #ECECF1;
+}
+
+.ContentPanelH2 {
+  display: grid;
+  grid-row-gap: 0.5rem;
+  --bs-gutter-x: 0;
+  margin: 0px 75px;
+  color: rgb(236, 236, 241);
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.smallButton {
+  --bs-btn-color: rgb(209, 213, 219) !important;
+  --bs-btn-hover-bg: rgb(64,65,79) !important;
+  --bs-btn-hover-color: rgb(227, 229, 238) !important;
+  --bs-btn-hover-border-color: transparent !important;
+  --bs-btn-active-color: rgb(209, 213, 219) !important;
+  --bs-btn-active-bg: rgb(64,65,79) !important;
+  --bs-btn-active-border-color: transparent !important;
+  --bs-btn-bg: transparent !important;
+  --bs-btn-border-color: transparent !important;
+  --bs-btn-focus-shadow-rgb: transparent !important;
+  width: 25px;
+  height: 25px; 
+  padding: 0rem;
+  border-radius: 0.375rem;
+  --bs-btn-padding-x: 0.3rem !important;
+  --bs-btn-padding-y: 0.2rem !important; 
+}
+
+.ToolBar {
+  z-index: 1;
+  width: 100%;
+  height: 43px;
+  float: left;
+  position: absolute;
+  background-color: rgb(52, 53, 65);
+  /* background-color: yellow; */
+  visibility:hidden;
+  border-width: 0px;
+  border-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: rgb(93, 93, 103);
+}
+
+.toolBarButton {
+  --bs-btn-color: rgb(209, 213, 219) !important;
+  --bs-btn-hover-bg: rgb(64,65,79) !important;
+  --bs-btn-hover-color: rgb(227, 229, 238) !important;
+  /* --bs-btn-hover-border-color: transparent !important; */
+  --bs-btn-active-color: rgb(209, 213, 219) !important;
+  --bs-btn-active-bg: rgb(64,65,79) !important;
+  /* --bs-btn-active-border-color: transparent !important; */
+  --bs-btn-bg: transparent !important;
+  /* --bs-btn-border-color: transparent !important; */
+  width: 40px;
+  height: 40px;
+  --bs-btn-padding-x: 0.35rem !important;
+  --bs-btn-padding-y: -0.35rem !important;
+  --bs-btn-font-size: 1.4rem !important;
+}
+
+.FootPanel {
+  width: calc(100vw - 268px);
+  position: fixed;
+  bottom: 0px;
+  z-index: 1;
+  background-image: linear-gradient(to bottom,rgb(53,55,64,0.15), rgba(53,55,64), 70%, rgba(53,55,64), rgba(53,55,64));
+  padding-top: 8px;
+}
+
+.SendMessageBox {
+  background-color: rgb(64,65,79);
+  width: 100%;
+  max-width: 768px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 16px;
+  border-radius: 0.375rem;
+  box-shadow: 0px 0px 10px rgb(32,33,35,0.5)
+}
+
+.Content {
+  align-items: center;
+  height: 50rem;
+}
+
+.ContentButton {
+  --bs-btn-padding-y:.5rem !important;
+  --bs-btn-padding-x:.5rem !important;
+  --bs-btn-font-size:.875rem !important;
+  --bs-btn-bg: rgb(62, 63, 75) !important;
+  --bs-btn-color: rgb(236, 236, 241) !important;
+  padding: 11px !important;
+  --bs-btn-hover-bg: rgb(32,33,35) !important;
+  --bs-btn-hover-color: rgb(236, 236, 241) !important;
+
+  --bs-btn-active-color: rgb(236, 236, 241) !important;
+  --bs-btn-active-bg: rgb(32,33,35) !important;
+  --bs-btn-active-border-color: transparent !important;
+}
+
+.ContentBox {
+  padding: 12px !important;
+  color: rgb(236, 236, 241);
+  background-color: rgb(62, 63, 75);
+  font-size: .875rem !important;
+  border-radius: 0.375rem;
+  min-height: 64px;
+}
+
+.sendTextArea {
+  background-color: transparent !important;
+  height: 24px;
+  max-height: 200px;
+  overflow-y: hidden;
+  color: rgb(245,245,246);
+}
+
+.sendTextArea:focus{
+  border: 0 !important;/*这里你可以自己调节边框样式*/
+  outline: none !important;
+}
+
+.sendTextArea::-webkit-input-placeholder {
+  color: rgb(128, 128, 145);
+} 
+
+.sendButton, .sendButtonHighlight {
+  --bs-btn-color: rgb(128, 128, 145) !important;
+  --bs-btn-hover-bg: rgb(32,33,35) !important;
+  --bs-btn-hover-color: rgb(227, 229, 238) !important;
+  --bs-btn-hover-border-color: transparent !important;
+  --bs-btn-active-color: rgb(209, 213, 219) !important;
+  --bs-btn-active-bg: rgb(32,33,35) !important;
+  --bs-btn-active-border-color: transparent !important;
+  --bs-btn-bg: transparent !important;
+  --bs-btn-border-color: transparent !important;
+  width: 27px !important;
+  height: 25px !important;
+  --bs-btn-padding-x: 0.15rem !important;
+  --bs-btn-padding-y: 0.15rem !important;
+}
+
+.sendButtonHighlight {
+  --tw-text-opacity: 1;
+  --bs-btn-color: rgba(255,255,255,var(--tw-text-opacity)) !important;
+}
+
+.RegenerateResButton {
+  padding: 8px 12px;
+  font-size: .875rem !important;
+  color: rgb(209, 213, 219) !important;
+  --bs-btn-font-size: .85rem;
+  --bs-btn-bg: rgb(52,53,65) !important;
+  --bs-btn-border-color: rgb(86, 88, 105) !important;
+  --bs-btn-hover-color: rgb(64, 65, 79) !important;
+  --bs-btn-hover-bg: rgb(64, 65, 79) !important;
+  --bs-btn-hover-border-color: rgb(86, 88, 105) !important;
+  --bs-btn-active-color: rgb(64, 65, 79) !important;
+  --bs-btn-active-bg: rgb(64, 65, 79) !important;
+  --bs-btn-active-border-color: rgb(86, 88, 105) !important;
+}
+
+.MessageItem {
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+  width: 100%;
+  height: auto;
+  padding: 24px 0px;
+  margin: 0 auto;
+  border-bottom: 1px solid rgb(50, 52, 60);
+  max-width: 48rem;
+}
+
+.MessageItemLight {
+  background-color: rgb(68, 70, 84);
+}
+
+.MessageItemDark {
+  background-color: rgb(52, 53, 65);
+}
+
+.ArrowButton {
+  --bs-btn-color: rgb(209, 213, 219) !important;
+  --bs-btn-hover-bg: transparent !important;
+  --bs-btn-hover-color: rgb(209, 213, 219) !important;
+  --bs-btn-hover-border-color: transparent !important;
+  --bs-btn-active-color: rgb(209, 213, 219) !important;
+  --bs-btn-active-bg: transparent !important;
+  --bs-btn-active-border-color: transparent !important;
+  --bs-btn-bg: transparent !important;
+  --bs-btn-border-color: transparent !important;
+  --bs-btn-focus-shadow-rgb: transparent !important;
+  width: 12px;
+  height: 12px; 
+  padding: 0rem !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.PageNumber {
+  color: white;
+  font-size: 12px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.TopPageBar {
+  display: flex;
+  background-color: aqua;
+}
+
+.BottomPageBar {
+  display: none;
+  background-color: red;
+}
+
+.MessageContent {
+  color: rgb(255, 255, 255);
+  text-align: left;
+  margin-bottom: 0px;
+  /* word-break: break-all; */
+}
+
+.WrongMessage {
+  border:1px solid rgb(239,68,68);
+  border-radius: 5px;
+  background-color: rgb(85,70,82);
+  padding:5px;
+}
+
+/* ----------------------------- Modal ---------------------------- */
+.SettingsModal {
+  background-color: rgb(32, 33, 35) !important;
+}
+
+.SettingsModalFontColor {
+  color: rgb(193, 193, 205) !important;
+}
+
+.modal-backdrop {
+  opacity: 0.7 !important;
+  background-color: rgb(86,88,105) !important;
+}
+
+/* ----------------------------- Markdown ---------------------------- */
+.ReactMarkdown {
+  max-width: 100%;
+  width: auto;
+  overflow-x: hidden;
+}
+
+.codePre {
+  /* margin-bottom: 3em !important; */
+  /* -webkit-box-shadow: -10px 0px 13px -7px #000000, 10px 0px 13px -7px #000000, 35px -23px 2px -16px rgba(0, 0, 0, 0); */
+  position: relative;
+  max-width: 45rem;
+}
+
+.codePre > div {
+  overflow-x: scroll;
+}
+
+.codePre > div::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+  background-color: rgb(52, 53, 65); 
+}
+
+.codePre > div::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+  background-color: rgb(86, 88, 105);
+}
+
+.copyButton {
+  position: absolute;
+  right: 0px;
+  top: 7px;
+  font-size: .375rem !important;
+  --bs-btn-color: rgb(209, 213, 219) !important;
+  --bs-btn-hover-bg: rgb(64,65,79) !important;
+  --bs-btn-hover-color: rgb(227, 229, 238) !important;
+  --bs-btn-hover-border-color: transparent !important;
+  --bs-btn-active-color: rgb(209, 213, 219) !important;
+  --bs-btn-active-bg: rgb(64,65,79) !important;
+  --bs-btn-active-border-color: transparent !important;
+  --bs-btn-bg: transparent !important;
+  --bs-btn-border-color: transparent !important;
+  --bs-btn-focus-shadow-rgb: transparent !important;
+}
+
+/* ----------------------------- 保存API KEY ---------------------------- */
+.saveAPIKeyField {
+  padding: 0px 7px !important;
+  overflow-y: hidden;
+  font-weight: normal !important;
+  font-size: 16px !important;
+  color: rgb(236, 236, 241) !important;
+  background-color: rgb(62, 63, 75) !important;
+  line-height: 35px !important;
+}
+
+.saveAPIKeyField:focus{
+  border: 0 !important;/*这里你可以自己调节边框样式*/
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.saveAPIKeyField::-webkit-input-placeholder {
+  color: rgb(128, 128, 145);
+} 
