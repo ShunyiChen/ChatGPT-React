@@ -582,3 +582,15 @@
 .saveAPIKeyField::-webkit-input-placeholder {
   color: rgb(128, 128, 145);
 }
+
+
+@media screen and (max-width: 767px) { 
+  #getStartedLeft {
+    display: inline-flex;
+  }
+}
+@media screen and (min-width: 767px) {
+  #getStartedLeft {
+    display: none;
+  }
+}
