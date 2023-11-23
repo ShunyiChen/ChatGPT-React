@@ -1,19 +1,15 @@
 <!-- //创建项目 -->
 
-npm create vite@latest
+# ChatGPT UI高仿
 
-<!-- 安装bootstrap css -->
+## 项目介绍
 
-npm i bootstrap@latest
-
-<!-- 进入项目目录 -->
-
-cd 项目名
-
-<!-- 安装 -->
-
-npm install
+这是一个ChatGPT UI高仿练手项目，使用React+TypeScript+Bootstrap5+Vite构建。该项目是从GetStarted页面开始模拟真实的ChatGPT登录、注册、对话等功能。待续。。。
 
 <!-- 启动 -->
 
+## 启动项目
+
+```shell
 npm run dev
+```
