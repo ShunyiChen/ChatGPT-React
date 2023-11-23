@@ -159,9 +159,10 @@ function App() {
   // }
 
   return (
-      <>
-        <Getstarted/>
-      </>
+    <div className='container-fluid p-0 d-flex flex-row mb-0'>
+      <Getstarted></Getstarted>
+    </div>
+     
  
     // <div className='container-fluid' style={{display: "flex", padding: "0"}}>
     //     <ToolBar text={toolbarTitle} menuClickHandle={menuClick} plusClickHandle={() => elementRef.current?.newChat()}/> 

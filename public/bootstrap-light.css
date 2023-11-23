@@ -12,7 +12,7 @@
   transition: all 3.3s ease-in-out; /* Adjust the duration and timing function as desired */
 }
 
-/* ------------------- 文字滚读 --------------------*/
+/* ------------------- 文字滚读动画 --------------------*/
 /* Define the animation keyframes */
 @keyframes charLoading {
   from {
@@ -73,7 +73,28 @@
 
 /* ------------------- 自适应屏幕尺寸 --------------------*/
 
-@media screen and (max-width: 777px) { 
+@media screen and (max-width: 640px) {
+  #getStartedLeft {
+    display:none !important;
+  }
+  #getStartedRight {
+    width: 100% !important;
+  }
+  #getStartedButtons {
+    flex-wrap:wrap !important;
+  }
+  .getstartedButton {
+    width: 91.6%;
+  }
+  #getStartedText {
+    font-size: 20px;
+  }
+  #getStartedLinks {
+    margin-top: -12px;
+  }
+
+
+
   #NavigationBar {
     display: none;
   }
@@ -91,7 +112,38 @@
   }
 }
 
-@media screen and (min-width: 777px) {
+@media screen and (min-width: 640px) and (max-width:768px) {
+  #getStartedLeft {
+    display:none !important;
+  }
+  #getStartedRight {
+    width: 100% !important;
+  }
+  #getStartedButtons {
+    flex-wrap:nowrap !important;
+  }
+  .getstartedButton {
+    width: 214px;
+  }
+  #getStartedText {
+    font-size: 20px;
+  }
+  #getStartedLinks {
+    margin-top: -12px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  #getStartedButtons {
+    flex-wrap:nowrap !important;
+  }
+  .getstartedButton {
+    width: 44.6%;
+    max-width: 214px !important;
+  }
+  #getStartedName{
+    display: none !important;
+  }
   .codePre {
     width: calc(100vw - 400px);
   }
@@ -457,7 +509,9 @@
   width: 100%;
   height: auto;
   padding: 24px 0px;
+  margin: 0 auto;
   border-bottom: 1px solid rgb(222, 222, 223);
+  max-width: 48rem;
 }
 
 .MessageItemLight {
@@ -584,13 +638,100 @@
 }
 
 
-@media screen and (max-width: 767px) { 
-  #getStartedLeft {
-    display: inline-flex;
+/* -----------------------------Get started----------------------------- */
+.getStartedLeftTheme {
+  background-color: rgb(255,255,219) !important;
+  color: #FE7600 !important;
+}
+
+.getStartedRightTheme {
+  background-color: white !important;
+  color: black !important;
+}
+
+.getstartedButton {
+  height: 48px;
+  max-width: 440px;
+  font-size: .875rem !important;
+  font-weight: 600 !important;
+  --bs-btn-color: white !important;
+  --bs-btn-bg: #3f3ffd !important;
+  --bs-btn-hover-bg: #0000FF !important;
+  --bs-btn-hover-color: white !important;
+  --bs-btn-active-color: white !important;
+  --bs-btn-active-bg: #0000FF !important;
+}
+
+.font-circle {
+  font-size: 40px;
+  margin-top: -18px;
+}
+
+.hidden {
+  animation: hiddenAnimation 0.4s;
+}
+
+.visible {
+  animation: visibleAnimation 0.4s;
+}
+
+@keyframes hiddenAnimation {
+  from {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0px);
+  }
+  to {
+    opacity: 0.1;
+    transform: translateY(20px);
+    visibility: hidden;
+    animation-timing-function: ease-in-out;
   }
 }
-@media screen and (min-width: 767px) {
-  #getStartedLeft {
-    display: none;
+
+@keyframes visibleAnimation {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+    visibility: visible;
+    animation-timing-function: ease-in-out;
+  }
+}
+
+.typing::after {
+  height: 109%;
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: bottom;
+  content: "\25CF";
+  font-size: 67px !important;
+}
+
+.stopTyping::after {
+  height: 109%;
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: bottom;
+  content: "\25CF";
+  font-size: 67px !important;
+  animation: stopAnimation 0.3s ease-in-out;
+  /* 圆点停顿0.3秒再打字 */
+  animation-delay: 0.3s; 
+  animation-play-state: running; 
+  animation-iteration-count: 1;
+  /* 使动画不返回到原始大小 */
+  animation-fill-mode: both;
+}
+
+@keyframes stopAnimation {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
   }
 }

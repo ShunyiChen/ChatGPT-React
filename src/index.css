@@ -12,19 +12,3 @@ html, body, a, h1{
   min-width: 320px;
   min-height: 100vh; */
 }
-
-
-.getstartedButton {
-  font-size: .875rem !important;
-  font-weight: 600 !important;
-  --bs-btn-color: white !important;
-  --bs-btn-bg: #3f3ffd !important;
-  --bs-btn-hover-bg: #0000FF !important;
-  --bs-btn-hover-color: white !important;
-  --bs-btn-active-color: white !important;
-  --bs-btn-active-bg: #0000FF !important;
-}
-.font-circle {
-   font-size: 40px;
-   margin-top: -18px;
-}
