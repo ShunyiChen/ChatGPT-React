@@ -10,6 +10,8 @@ import { Chat, ChatButtonClass, SystemButtonClass } from './interfaces/Chat'
 import axios from 'axios'
 import cookie from 'react-cookies'
 import Getstarted from './views/Getstarted'
+import SignIn from './views/SignIn'
+import SignUp from './views/SignUp'
 
 // let currentChatId = ""
 
@@ -160,7 +162,9 @@ function App() {
 
   return (
     <div className='container-fluid p-0 d-flex flex-row mb-0'>
-      <Getstarted></Getstarted>
+      {/* <Getstarted></Getstarted> */}
+      {/* <SignIn></SignIn> */}
+      <SignUp></SignUp>
     </div>
      
  

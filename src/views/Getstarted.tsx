@@ -21,7 +21,7 @@ function Getstarted() {
 
     const msg = [   
         {topic:"Brainstorm names", info:["for an orange cat we're adopting from the shelter","for my fantasy football team"], wait: 10000},
-        {topic:"Recommend a dish", info:["to impress a date who's a picky eater", "to bring to a potluck"], wait: 10000},
+        {topic:"Recommend a dish", info:["to impress a date who's a picky eater", "to bring to a potluck"], wait: 9000},
         {topic:"Draft an email", info: ["to request a quote from local plumbers", "requesting a deadline extension for my project"], wait: 10000},
         {topic:"Improve my post", info:["for hiring a store associate","for selling a used vacuum in good condition"], wait: 10000},
         {topic:"Help me debug", info: ["why the linked list appears empty after I've reversed it", "a Python script automating daily reports"], wait: 10000},
@@ -73,7 +73,7 @@ function Getstarted() {
                             setTyping("")
                             index = 1;
                             p++;
-                        }, 2000) //每行打字结束后停顿两秒
+                        }, 3000) //每行打字结束后停顿两秒
                     }
                     // console.log('打完并清除')
                     // 开始圆点动画
@@ -95,7 +95,7 @@ function Getstarted() {
                 </div>
                 <div className={["d-flex","flex-column","justify-content-center",hi===true?"hidden":"visible"].join(' ')} style={{height: '100%', marginTop:"-57px"}}>
                     <p className='m-0' style={{fontSize:'38px', fontWeight:'700', lineHeight:'49px'}}>{msg[i].topic}</p>
-                    <p className={stop?"m-0 stopTyping":"m-0 typing"} style={{fontSize:'38px', lineHeight:'49px', height:"47px", width:"76%"}}>{typing}</p>
+                    <p className={stop?"m-0 stopTyping":"m-0 typing"} style={{fontSize:'38px', lineHeight:'49px', height:"47px", width:"90%"}}>{typing}</p>
                 </div>
             </div>
 
