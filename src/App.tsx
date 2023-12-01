@@ -9,9 +9,13 @@ import { Offcanvas } from 'bootstrap'
 import { Chat, ChatButtonClass, SystemButtonClass } from './interfaces/Chat'
 import axios from 'axios'
 import cookie from 'react-cookies'
+
+import EnterYourPassword from './views/EnterYourPassword'
 import Getstarted from './views/Getstarted'
-import SignIn from './views/SignIn'
-import SignUp from './views/SignUp'
+import WelcomeBack from './views/WelcomeBack'
+import SignUp from './views/CreateYourAccount'
+import ResetYourPassword from './views/ResetYourPassword'
+import CreateYourAccount from './views/CreateYourAccount'
 
 // let currentChatId = ""
 
@@ -163,8 +167,10 @@ function App() {
   return (
     <div className='container-fluid p-0 d-flex flex-row mb-0'>
       {/* <Getstarted></Getstarted> */}
-      {/* <SignIn></SignIn> */}
-      <SignUp></SignUp>
+      {/* <WelcomeBack></WelcomeBack> */}
+      {/* <EnterYourPassword></EnterYourPassword> */}
+      {/* <ResetYourPassword></ResetYourPassword> */}
+      <CreateYourAccount withPwdInput={true} ></CreateYourAccount>
     </div>
      
  
@@ -220,7 +226,3 @@ function App() {
 }
 
 export default App
-
-export function getIcon(name: string) {
-  return new URL(`./assets/${name}`, import.meta.url).href;
-}
