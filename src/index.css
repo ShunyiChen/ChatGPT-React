@@ -62,6 +62,22 @@ html, body, a, h1{
   --bs-btn-active-bg: #10A37F !important;
 }
 
+/************ Resend email按钮 ************/
+.ResendEmailButton {
+  height: 52px;
+  width: 320px;
+  font-size: .875rem !important;
+  font-weight: 400 !important;
+  --bs-btn-color: #2D333A !important;
+  --bs-btn-bg: white !important;
+  --bs-btn-hover-bg: rgb(229,229,229) !important;
+  --bs-btn-hover-color: #2D333A !important;
+  --bs-btn-active-color: #2D333A !important;
+  --bs-btn-active-bg: rgb(217,235,243) !important;
+  --bs-btn-border-color: #C2C8D0 !important;
+  --bs-btn-hover-border-color: #C2C8D0 !important;
+}
+
 /************ OR横线 ************/
 .orLine {
   font-size: 12px;
@@ -90,7 +106,6 @@ html, body, a, h1{
   content: "";
   border-bottom: 1px solid var(--border-default-color);
 }
-
 
 /************ ContinueWith按钮 ************/
 .ContinueWithButton {
@@ -121,3 +136,46 @@ html, body, a, h1{
   --bs-btn-bg: white !important;
 }
 
+/************ chrome浏览器自动填充背景色 ************/
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px white inset !important; 
+}
+
+/************ Resend email按钮 ************/
+.ResendButton {
+  /* height: 52px;
+  width: 320px;
+  text-align: left; */
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  --bs-btn-color: #10A37F !important;
+  --bs-btn-bg: white !important;
+  --bs-btn-hover-bg: rgb(207,237,229) !important;
+  --bs-btn-hover-color: #10A37F !important;
+  --bs-btn-hover-border-color: transparent !important;
+  --bs-btn-active-color: #10A37F !important;
+  --bs-btn-active-bg: rgb(207,237,229) !important;
+  --bs-btn-border-color: transparent !important;
+  --bs-btn-focus-shadow-rgb: #CED4DA !important;
+}
+
+/************ Li before ************/
+.myul > li::before {
+  position: absolute;
+  content: "•";
+  font-size: 18px;
+  margin-top: -5px;
+  margin-left: -17px;
+}
+
+.myulCheckPass {
+  color: #0a8852;
+}
+.myulCheckPass > li::before {
+  position: absolute;
+  content: "✓";
+  font-size: 18px;
+  margin-top: -5px;
+  margin-left: -17px;
+  color: #0a8852;
+}

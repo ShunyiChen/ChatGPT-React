@@ -1,9 +1,28 @@
 import { useState, useRef, useEffect  } from 'react'
+import { useNavigate, useLocation } from "react-router-dom";
 import {getLogoIcon} from '../utils/Common'
 import NewTextField, { TextFieldType } from '../components/NewTextField'
 
+
 function WelcomeBack() {
+    const location = useLocation();
+    const data = location.state;
+    const [email, setEmail] = useState(data.email)
     
+    const handleChange = (text: string) => {
+        setEmail(text)
+    }
+
+    let navigate = useNavigate()
+    const handleSubmit = (e: any) => {
+        e.preventDefault();
+        navigate("/u/login/password", { state: { email: email} })
+    }
+
+    const signUp = () => {
+        navigate("/u/signup/identifier", { state: { email: ""} })
+    }
+   
     return (
         <div className="d-flex flex-column align-items-center" style={{width:"100%", backgroundColor:"white", overflow:"auto", paddingTop:"32px"}}>
             <header className="d-flex flex-row align-items-center">
@@ -17,15 +36,15 @@ function WelcomeBack() {
                         <div className='h1' style={{margin:"24px 0px 0px", fontSize:"32px", color:"#2D333A", fontWeight:"bold"}}>Welcome back</div>
                     </header>
                     <div>
-                        <form>
-                            <NewTextField title={'Email address'} borderColor={'#10A37F'} type={TextFieldType.email} withButton={false}></NewTextField>
+                        <form onSubmit={handleSubmit}>
+                            <NewTextField title={'Email address'} borderColor={'#C2C8D0'} type={TextFieldType.email} withButton={false} initialValue={email} handleChange={handleChange}></NewTextField>
                             <div style={{margin:"24px 0px 0px"}}>
-                                <button type="button" className="btn ContinueButton ">Continue</button>
+                                <button type="submit" className="btn ContinueButton" >Continue</button>
                             </div>
                         </form>
                         <div className='d-flex flex-row justify-content-center' style={{fontSize:"14px", marginTop:"16px", height:"17px"}}>
                             <p>Don't have an account?
-                                <a href="#" className="text-decoration-none" style={{padding:"0px 5px", color:"#10A37F"}}>Sign up</a>
+                                <a href="" className="text-decoration-none" style={{padding:"0px 5px", color:"#10A37F"}} onClick={signUp}>Sign up</a>
                             </p>
                         </div>
                         <div className='orLine d-flex flex-row justify-content-center align-items-start' style={{paddingTop:"24px", width:"100%"}}>

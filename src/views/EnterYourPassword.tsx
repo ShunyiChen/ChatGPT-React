@@ -1,8 +1,25 @@
 import { useState, useRef, useEffect  } from 'react'
+import { useNavigate, useLocation } from "react-router-dom";
 import NewTextField, { TextFieldType } from '../components/NewTextField'
 
 function EnterYourPassword() {
-    
+    const location = useLocation();
+    const data = location.state;
+    let navigate = useNavigate()
+    const handleEditClick = () => {
+        navigate("/u/login/identifier", { state: { email: data.email} })
+    }
+
+    const forgotPassword = () => {
+        navigate("/u/reset-password/request/Username-Password-Authentication", { state: { sent: false, email: data.email}})
+    }
+
+    const handleSubmit = (e: any) => {
+        e.preventDefault();
+        // navigate("/u/reset-password/request/Username-Password-Authentication")
+        // navigate("/u/login/password", { state: { email: email} })
+    }
+
     return (
         <div className="d-flex flex-column align-items-center" style={{width:"100%", backgroundColor:"white", overflow:"auto", paddingTop:"32px"}}>
             <header className="d-flex flex-row align-items-center">
@@ -16,16 +33,16 @@ function EnterYourPassword() {
                         <div className='h1' style={{margin:"24px 0px 0px", fontSize:"32px", color:"#2D333A", fontWeight:"bold"}}>Enter your password</div>
                     </header>
                     <div>
-                        <form>
+                        <form onSubmit={handleSubmit}>
                             <div style={{margin:"0px 0px 12px", padding:"0 16"}}>
-                                <NewTextField title={'Email address'} borderColor={'#10A37F'} type={TextFieldType.email} withButton={true} isEditabled={false} initialValue='forerunner2018@hotmail.com'></NewTextField>
+                                <NewTextField title={'Email address'} borderColor={'#C2C8D0'} type={TextFieldType.email} withButton={true} isEditabled={false} initialValue={data.email} buttonAction={handleEditClick}></NewTextField>
                             </div>
-                            <NewTextField title={'Password'} borderColor={'#10A37F'} type={TextFieldType.password} withButton={true} buttonText='' isEditabled={true}></NewTextField>
+                            <NewTextField title={'Password'} borderColor={'#C2C8D0'} type={TextFieldType.password} withButton={true} buttonText='' isEditabled={true}></NewTextField>
                             <div style={{margin: "16px 0px 0px"}}>
-                                <a href="#" className="text-decoration-none" style={{padding:"0px 5px", color:"#10A37F"}}>Forgot password?</a>
+                                <a href="" className="text-decoration-none" style={{padding:"0px 5px", color:"#10A37F"}} onClick={forgotPassword}>Forgot password?</a>
                             </div>
                             <div style={{margin:"24px 0px 0px"}}>
-                                <button type="button" className="btn ContinueButton ">Continue</button>
+                                <button type="submit" className="btn ContinueButton ">Continue</button>
                             </div>
                         </form>
                         <div className='d-flex flex-row justify-content-center' style={{fontSize:"14px", marginTop:"16px", height:"17px"}}>

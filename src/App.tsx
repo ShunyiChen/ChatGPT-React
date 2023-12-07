@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect  } from 'react'
+import { Route, Routes, useRoutes } from "react-router-dom";
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 // import './App.css'
@@ -16,6 +17,8 @@ import WelcomeBack from './views/WelcomeBack'
 import SignUp from './views/CreateYourAccount'
 import ResetYourPassword from './views/ResetYourPassword'
 import CreateYourAccount from './views/CreateYourAccount'
+import VerifyYourEmail from './views/VerifyYourEmail';
+import CreateYourAccountPwd from './views/CreateYourAccountPwd';
 
 // let currentChatId = ""
 
@@ -38,6 +41,43 @@ import CreateYourAccount from './views/CreateYourAccount'
 // }
 
 function App() {
+
+  let routers = useRoutes([
+    {
+      index: true,
+      path: "/auth/login",
+      element: <Getstarted/>
+    },
+    {
+      path: "/u/login/identifier",
+      element: <WelcomeBack/>
+    },
+    {
+      path: "/u/login/password",
+      element: <EnterYourPassword/>
+    },
+    {
+      path: "/u/reset-password/request/Username-Password-Authentication",
+      element: <ResetYourPassword/>
+    },
+    {
+      path: "/u/signup/identifier",
+      element: <CreateYourAccount withPwdInput={false} withSSOButtons={true}/>
+    },
+    {
+      path: "/u/signup/password",
+      element: <CreateYourAccountPwd withPwdInput={true} withSSOButtons={false}/>
+    },
+    {
+      path: "/onboarding",
+      element: <VerifyYourEmail />
+    },
+    {
+      path: "*",
+      element: <>NotFound</>
+    }
+  ])
+
 
   // const systemBtnData: SystemButtonClass[] = [
   //   {text: "Clear conversations",icon: "fa fa-trash-o", isOperable: true, question: "Confirm clear conversations"},
@@ -165,13 +205,24 @@ function App() {
   // }
 
   return (
-    <div className='container-fluid p-0 d-flex flex-row mb-0'>
-      {/* <Getstarted></Getstarted> */}
-      {/* <WelcomeBack></WelcomeBack> */}
-      {/* <EnterYourPassword></EnterYourPassword> */}
-      {/* <ResetYourPassword></ResetYourPassword> */}
-      <CreateYourAccount withPwdInput={true} ></CreateYourAccount>
-    </div>
+      <div className='container-fluid p-0 d-flex flex-row mb-0'>
+        {/* <Routes>
+          <Route path="/auth/login" element={<Getstarted/>} />
+          <Route path="/u/login/identifier" element={<WelcomeBack/>} />
+          <Route path="*" element={<>NotFound</>} />
+        </Routes> */}
+
+
+        {routers}
+
+        {/* <Getstarted></Getstarted> */}
+        {/* <WelcomeBack></WelcomeBack> */}
+        {/* <EnterYourPassword></EnterYourPassword> */}
+        {/* <ResetYourPassword></ResetYourPassword> */}
+        {/* <CreateYourAccount withPwdInput={true} ></CreateYourAccount> */}
+      </div>
+    
+
      
  
     // <div className='container-fluid' style={{display: "flex", padding: "0"}}>

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import {getLogoIcon} from '../utils/Common'
+import {getIcon, getLogoIcon} from '../utils/Common'
 import NewTextField, { TextFieldType } from '../components/NewTextField'
 import { useLocation, useNavigate } from 'react-router-dom'
 
@@ -8,26 +8,60 @@ type CreateYourAccountProps = {
     withPwdInput: boolean
 }
 
-function CreateYourAccount(props: CreateYourAccountProps) {
-    const {withSSOButtons, withPwdInput} = props
+function CreateYourAccountPwd(props: CreateYourAccountProps) {
     const location = useLocation();
     const data = location.state;
-    const [email, setEmail] = useState(data.email)
+    const {withSSOButtons, withPwdInput} = props
+    const [prompt, setPrompt] = useState(false)
+    const [existCheck, setExistCheck] = useState(false)
+    const [pwdLengthCheck, setPwdLengthCheck] = useState(false)
+
+
+    const [checkPass, setCheckPass] = useState(false)
+    let errMsg = ""
+
 
     let navigate = useNavigate()
     const signIn = () => {
         navigate("/u/login/identifier", { state: { email: ""} })
     }
 
-    const handleChange = (text: string) => {
-        setEmail(text)
+    const validateForm = () => {
+        setExistCheck(false)
+        
     }
 
     const handleSubmit = (e: any) => {
-        e.preventDefault();
-        navigate("/u/signup/password", {state:{email:email}})
+        e.preventDefault()
+        validateForm()
+        if(!existCheck && !pwdLengthCheck) {
+            navigate("/onboarding", { state: { email: data.email} })
+        }
     }
- 
+
+    const handlePwdChange = (text: string) => {
+        setPrompt(true)
+        if(text.length >= 12) {
+            setPwdLengthCheck(false)
+            setCheckPass(true)
+        } else {
+            setPwdLengthCheck(true)
+            setCheckPass(false)
+        }
+    }
+
+    const showPwdInput = () => {
+        if(withPwdInput) {
+            return (
+                <NewTextField title={'Password'} borderColor={pwdLengthCheck?'#D00E17':'#C2C8D0'} labelColor={pwdLengthCheck?'#D00E17':'#6F7780'} type={TextFieldType.password} withButton={true} buttonText='' isEditabled={true} handleChange={handlePwdChange}></NewTextField>
+            )
+        }
+    }
+
+    const goBack = () => {
+        navigate("/u/signup/identifier", { state: { email: data.email} })
+    }
+
     const showSSOButtons = () => {
         if(withSSOButtons) {
             return (
@@ -66,6 +100,52 @@ function CreateYourAccount(props: CreateYourAccountProps) {
         }
     }
 
+    const showPrompt = () => {
+        if(prompt) {
+            return (
+                <div style={{margin:"8px 0px 0px", padding:"14px 16px", border:"1px solid #CED4DA", borderRadius:"3px", fontSize:"14px"}}>
+                    <div>
+                        <ul style={{margin:"0", padding:"0"}}>
+                            <li style={{listStyleType:"none"}}>
+                                <div>
+                                    <span>
+                                        Your password must contain:
+                                        <ul className={checkPass?'myulCheckPass':'myul'} style={{marginTop:"8px", padding:"0px 0px 0px 20px"}}>
+                                            <li style={{listStyle:"none"}}>
+                                                <span>
+                                                    At least 12 characters
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            )
+        }
+    }
+
+    const showErrMsg = () => {
+        if(existCheck) {
+            errMsg = "The user already exists."
+            return(
+                <div className='d-flex flex-row align-items-center' style={{margin:"-10px 0px 12px"}}>
+                    <span className='d-flex flex-row align-items-center' style={{fontSize:"12px", color:"#D00E17"}}>
+                        <span style={{margin:"0px 8px 0px 0px"}}>
+                            <img src={getIcon('InputErrorIcon.svg')} alt="" />
+                        </span>
+                    {errMsg}</span>
+                </div>
+           )
+        } else {
+            return(
+                <></>
+            )
+        }
+    }
+
     return (
         <div className="d-flex flex-column align-items-center" style={{width:"100%", backgroundColor:"white", overflow:"auto", paddingTop:"32px"}}>
             <header className="d-flex flex-row align-items-center">
@@ -81,8 +161,13 @@ function CreateYourAccount(props: CreateYourAccountProps) {
                     <div>
                         <form onSubmit={handleSubmit}>
                             <div style={{margin:"0px 0px 12px", padding:"0 16"}}>
-                                <NewTextField title={'Email address'} borderColor={'#C2C8D0'} type={TextFieldType.email} withButton={false} isEditabled={true} initialValue={email} handleChange={handleChange}></NewTextField>
+                                <NewTextField title={'Email address'} borderColor={existCheck?'#D00E17':'#C2C8D0'} type={TextFieldType.email} withButton={true} isEditabled={false} initialValue={data.email} buttonAction={goBack} withError={true}></NewTextField>
                             </div>
+                            
+                            {showErrMsg()}
+                            {showPwdInput()}
+                            {showPrompt()}
+
                             <div style={{margin:"24px 0px 0px"}}>
                                 <button type="submit" className="btn ContinueButton">Continue</button>
                             </div>
@@ -105,7 +190,6 @@ function CreateYourAccount(props: CreateYourAccountProps) {
             
         </div>
     )
-
 }
 
-export default CreateYourAccount
+export default CreateYourAccountPwd
