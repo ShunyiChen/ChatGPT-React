@@ -1,10 +1,14 @@
 import { useState, useRef, useEffect  } from 'react'
 import { useNavigate, useLocation } from "react-router-dom";
 import NewTextField, { TextFieldType } from '../components/NewTextField'
+import { getIcon } from '../utils/Common';
 
 function EnterYourPassword() {
     const location = useLocation();
     const data = location.state;
+    const [signInCheck, setSignInCheck] = useState(true)
+
+    let errMsg = ""
     let navigate = useNavigate()
     const handleEditClick = () => {
         navigate("/u/login/identifier", { state: { email: data.email} })
@@ -16,8 +20,32 @@ function EnterYourPassword() {
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
-        // navigate("/u/reset-password/request/Username-Password-Authentication")
+        setSignInCheck(false)
+
         // navigate("/u/login/password", { state: { email: email} })
+    }
+
+    const signUp = () => {
+        navigate("/u/signup/identifier", { state: { email: ""} })
+    }
+
+    const showErrMsg = () => {
+        if(!signInCheck) {
+            errMsg = "Wrong email or password."
+            return(
+                <div className='d-flex flex-row align-items-center' style={{margin:"4px 0px 12px"}}>
+                    <span className='d-flex flex-row align-items-center' style={{fontSize:"12px", color:"#D00E17"}}>
+                        <span style={{margin:"0px 8px 0px 0px"}}>
+                            <img src={getIcon('InputErrorIcon.svg')} alt="" />
+                        </span>
+                    {errMsg}</span>
+                </div>
+           )
+        } else {
+            return(
+                <></>
+            )
+        }
     }
 
     return (
@@ -37,9 +65,10 @@ function EnterYourPassword() {
                             <div style={{margin:"0px 0px 12px", padding:"0 16"}}>
                                 <NewTextField title={'Email address'} borderColor={'#C2C8D0'} type={TextFieldType.email} withButton={true} isEditabled={false} initialValue={data.email} buttonAction={handleEditClick}></NewTextField>
                             </div>
-                            <NewTextField title={'Password'} borderColor={'#C2C8D0'} type={TextFieldType.password} withButton={true} buttonText='' isEditabled={true}></NewTextField>
+                            <NewTextField title={'Password'} borderColor={signInCheck?'#C2C8D0':'#D00E17'} labelColor={signInCheck?'#6F7780':'#D00E17'} type={TextFieldType.password} withButton={true} buttonText='' isEditabled={true}></NewTextField>
+                            {showErrMsg()}
                             <div style={{margin: "16px 0px 0px"}}>
-                                <a href="" className="text-decoration-none" style={{padding:"0px 5px", color:"#10A37F"}} onClick={forgotPassword}>Forgot password?</a>
+                                <a href="" className="text-decoration-none" style={{padding:"0px 5px", color:"#10A37F", fontSize:"14px"}} onClick={forgotPassword}>Forgot password?</a>
                             </div>
                             <div style={{margin:"24px 0px 0px"}}>
                                 <button type="submit" className="btn ContinueButton ">Continue</button>
@@ -47,7 +76,7 @@ function EnterYourPassword() {
                         </form>
                         <div className='d-flex flex-row justify-content-center' style={{fontSize:"14px", marginTop:"16px", height:"17px"}}>
                             <p>Don't have an account?
-                                <a href="#" className="text-decoration-none" style={{padding:"0px 5px", color:"#10A37F"}}>Sign up</a>
+                                <a href="" className="text-decoration-none" style={{padding:"0px 5px", color:"#10A37F"}} onClick={signUp}>Sign up</a>
                             </p>
                         </div>
                     </div>

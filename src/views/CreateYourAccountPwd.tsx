@@ -13,10 +13,8 @@ function CreateYourAccountPwd(props: CreateYourAccountProps) {
     const data = location.state;
     const {withSSOButtons, withPwdInput} = props
     const [prompt, setPrompt] = useState(false)
-    const [existCheck, setExistCheck] = useState(false)
-    const [pwdLengthCheck, setPwdLengthCheck] = useState(false)
-
-
+    const [existCheck, setExistCheck] = useState(true)
+    const [lengthCheck, setLengthCheck] = useState(true)
     const [checkPass, setCheckPass] = useState(false)
     let errMsg = ""
 
@@ -27,14 +25,15 @@ function CreateYourAccountPwd(props: CreateYourAccountProps) {
     }
 
     const validateForm = () => {
-        setExistCheck(false)
+        setExistCheck(true)//通过
         
     }
 
     const handleSubmit = (e: any) => {
         e.preventDefault()
         validateForm()
-        if(!existCheck && !pwdLengthCheck) {
+        setLengthCheck(checkPass)
+        if(existCheck && checkPass) {
             navigate("/onboarding", { state: { email: data.email} })
         }
     }
@@ -42,10 +41,8 @@ function CreateYourAccountPwd(props: CreateYourAccountProps) {
     const handlePwdChange = (text: string) => {
         setPrompt(true)
         if(text.length >= 12) {
-            setPwdLengthCheck(false)
             setCheckPass(true)
         } else {
-            setPwdLengthCheck(true)
             setCheckPass(false)
         }
     }
@@ -53,7 +50,7 @@ function CreateYourAccountPwd(props: CreateYourAccountProps) {
     const showPwdInput = () => {
         if(withPwdInput) {
             return (
-                <NewTextField title={'Password'} borderColor={pwdLengthCheck?'#D00E17':'#C2C8D0'} labelColor={pwdLengthCheck?'#D00E17':'#6F7780'} type={TextFieldType.password} withButton={true} buttonText='' isEditabled={true} handleChange={handlePwdChange}></NewTextField>
+                <NewTextField title={'Password'} borderColor={lengthCheck?'#C2C8D0':'#D00E17'} labelColor={lengthCheck?'#6F7780':'#D00E17'} type={TextFieldType.password} withButton={true} buttonText='' isEditabled={true} handleChange={handlePwdChange}></NewTextField>
             )
         }
     }
@@ -128,7 +125,7 @@ function CreateYourAccountPwd(props: CreateYourAccountProps) {
     }
 
     const showErrMsg = () => {
-        if(existCheck) {
+        if(!existCheck) {
             errMsg = "The user already exists."
             return(
                 <div className='d-flex flex-row align-items-center' style={{margin:"-10px 0px 12px"}}>
@@ -161,7 +158,7 @@ function CreateYourAccountPwd(props: CreateYourAccountProps) {
                     <div>
                         <form onSubmit={handleSubmit}>
                             <div style={{margin:"0px 0px 12px", padding:"0 16"}}>
-                                <NewTextField title={'Email address'} borderColor={existCheck?'#D00E17':'#C2C8D0'} type={TextFieldType.email} withButton={true} isEditabled={false} initialValue={data.email} buttonAction={goBack} withError={true}></NewTextField>
+                                <NewTextField title={'Email address'} borderColor={existCheck?'#C2C8D0':'#D00E17'} type={TextFieldType.email} withButton={true} isEditabled={false} initialValue={data.email} buttonAction={goBack}></NewTextField>
                             </div>
                             
                             {showErrMsg()}

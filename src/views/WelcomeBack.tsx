@@ -8,6 +8,7 @@ function WelcomeBack() {
     const location = useLocation();
     const data = location.state;
     const [email, setEmail] = useState(data.email)
+    const [emailFormatCheck, setEmailFormatCheck] = useState(false)
     
     const handleChange = (text: string) => {
         setEmail(text)
@@ -38,6 +39,8 @@ function WelcomeBack() {
                     <div>
                         <form onSubmit={handleSubmit}>
                             <NewTextField title={'Email address'} borderColor={'#C2C8D0'} type={TextFieldType.email} withButton={false} initialValue={email} handleChange={handleChange}></NewTextField>
+                            
+                            
                             <div style={{margin:"24px 0px 0px"}}>
                                 <button type="submit" className="btn ContinueButton" >Continue</button>
                             </div>

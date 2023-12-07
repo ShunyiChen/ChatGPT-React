@@ -26,7 +26,8 @@ function NewTextField(props: TextFieldProps) {
     const {initialValue='', title, borderColor, labelColor='#6F7780', type, withButton, buttonText='Edit', buttonAction, isEditabled=true, handleChange} = props
     const [typeState, setTypeState] = useState(type.toString())
     const border = "1px solid "+borderColor
-    const focusRequestBorder = "1px solid #10A37F"
+    const focusRequestBorder = "1px solid "+(borderColor === '#D00E17'?'#D00E17':'#10A37F')
+    const focusRequestLabelColor = borderColor === '#D00E17'?'#D00E17':'#10A37F'
 
     const handleInput = (e:any) => {
         if(handleChange) {
@@ -45,7 +46,7 @@ function NewTextField(props: TextFieldProps) {
 
     const showInputLabel = () => {
         if(isEditabled) {
-           return <label className="floatingInput" style={{color:requestFocus?"#10A37F":labelColor}}>{title}</label>
+           return <label className="floatingInput" style={{color:requestFocus?focusRequestLabelColor:labelColor}}>{title}</label>
         }
     }
 

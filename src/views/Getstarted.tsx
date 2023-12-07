@@ -93,7 +93,7 @@ function Getstarted() {
     }
 
     const signUp = () => {
-        navigate("/u/signup/identifier")
+        navigate("/u/signup/identifier", { state: { email: ""} })
     }
 
     return (
