@@ -14,11 +14,11 @@ import cookie from 'react-cookies'
 import EnterYourPassword from './views/EnterYourPassword'
 import Getstarted from './views/Getstarted'
 import WelcomeBack from './views/WelcomeBack'
-import SignUp from './views/CreateYourAccount'
 import ResetYourPassword from './views/ResetYourPassword'
 import CreateYourAccount from './views/CreateYourAccount'
 import VerifyYourEmail from './views/VerifyYourEmail';
 import CreateYourAccountPwd from './views/CreateYourAccountPwd';
+import ChatGPT from './views/ChatGPT';
 
 // let currentChatId = ""
 
@@ -71,6 +71,10 @@ function App() {
     {
       path: "/onboarding",
       element: <VerifyYourEmail />
+    },
+    {
+      path: "/",
+      element: <ChatGPT />
     },
     {
       path: "*",

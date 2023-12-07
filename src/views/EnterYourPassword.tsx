@@ -20,9 +20,11 @@ function EnterYourPassword() {
 
     const handleSubmit = (e: any) => {
         e.preventDefault();
-        setSignInCheck(false)
+        setSignInCheck(true)
 
-        // navigate("/u/login/password", { state: { email: email} })
+        if(signInCheck) {
+            navigate("/", { state: { email: data.email} })
+        }
     }
 
     const signUp = () => {
