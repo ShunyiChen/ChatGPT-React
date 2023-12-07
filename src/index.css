@@ -179,3 +179,21 @@ input:-webkit-autofill {
   margin-left: -17px;
   color: #0a8852;
 }
+
+/************ New chat按钮 ************/
+.NewChatButton {
+  background-color: transparent;
+}
+
+.NewChatButton:hover {
+  background-color: #202123;
+}
+
+/************ New Toggle按钮 ************/
+.NewToggleButton {
+  background-color: transparent;
+}
+
+.NewToggleButton:hover {
+  background-color: #202123;
+}
