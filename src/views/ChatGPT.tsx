@@ -1,43 +1,107 @@
-import { useState, useRef, useEffect  } from 'react'
+import { useState, useRef, useEffect, createRef  } from 'react'
 import { useNavigate, useLocation } from "react-router-dom";
 import NewTextField, { TextFieldType } from '../components/NewTextField'
 import NewChatButton from '../components/NewChatButton';
+import { isDateBeforeThisYear, isDateInCurrentYearMonth, isToday, isWithinLast30Days, isWithinLast7Days, isYesterday } from '../utils/Common';
+import {dummay_conversations} from '../data/DummyData'
+import NewToggleButton, { NewToggleButtonRef } from '../components/NewToggleButton';
 
-type Timeline = {
-    name: string;
-    children: TimelineItem[];
+type Conversation = {
+    text: string,
+    date_created: string, 
+    chat_id: string
 }
 
-type TimelineItem = {
-    name: string;
-    children: any[]; // 按需更改这里的类型
+const monthsInReverseOrder: string[] = [
+    'Today','Yesterday','Previous 7 Days','Previous 30 Days',
+    'December', 'November', 'October', 'September',
+    'August', 'July', 'June', 'May', 'April',
+    'March', 'February', 'January', 'Prior To This Year'
+];
+
+const monthMap: Map<string, Conversation[]> = new Map();
+
+function init() {
+    console.log('-------------------------------------------')
+    monthsInReverseOrder.forEach((month) => {
+      monthMap.set(month, []);
+    });
+
+    const dateCheckFunctions = [
+        isToday,
+        isYesterday,
+        isWithinLast7Days,
+        isWithinLast30Days,
+        ...Array.from({ length: 12 }, (_, i) => (date:Date) => isDateInCurrentYearMonth(date, 12 - i)),
+        isDateBeforeThisYear
+      ];
+
+    dummay_conversations().forEach(e => {
+        const date = new Date(e.date_created)
+        for (let i = 0; i < dateCheckFunctions.length; i++) {
+            if (dateCheckFunctions[i](date)) {
+              const monthKey = monthsInReverseOrder[i];
+              monthMap.get(monthKey)?.push(e);
+              break;
+            }
+        }
+    })
 }
 
-const TimelineNames = {
-    Today: 'Today',
-    Yesterday: 'Yesterday',
-    Previous30Days: 'Previous 30 Days',
-    December:'December',
-    November:'November',
-    October: 'October',
-    September:'September',
-    August:'August',
-    July:'July',
-    June:'June',
-    May:'May',
-    April:'April',
-    March:'March',
-    February:'February',
-    January:'January',
-}
+
 
 function ChatGPT() {
+    const s = {text: "a",
+        date_created: "2023-12-10 21:48:10.973297",
+        chat_id: "c11"}
+    const dd =  dummay_conversations().push(s)
+    init()
+    
 
-    const groupByTimeline: Timeline[] = Object.values(TimelineNames).map(name => ({ name, children: [] }));
-    console.log('groupByTimeline=',groupByTimeline);
+    const inputRef = useRef<NewToggleButtonRef[]>([]);
 
-    Object.values(TimelineNames.April).push({name:"1"})
-    console.log('April=',groupByTimeline);
+    const cleanUp = () => {
+        inputRef.current.forEach(e => e.reset())
+    }
+    
+    const newChat = () => {
+
+    }
+
+    const showTimeframe = (monthsToIterate: string[]) => {
+        
+        return (
+          <span>
+            {monthsToIterate.map((month, idx) => {
+              const values = monthMap.get(month);
+              if(values && values.length > 0) {
+                return(
+                    <div key={idx} style={{opacity:1, height:"auto", position:"relative", marginTop:"1.25rem"}}>
+                        <div style={{opacity:1}}>
+                            <div className='h3 m-0' style={{backgroundColor:"rgba(0,0,0,1)", color:"rgba(102,102,102,1)", fontWeight:"500", fontSize:"0.75rem",
+                                padding:"12px 8px 8px", wordBreak:"break-all", textOverflow:"ellipsis", 
+                                overflow:"hidden", height:"2.25rem"}}>
+                                {month}
+                            </div>
+                        </div>
+                        <ol style={{listStyle:"none", margin:"0", padding:"0"}}>
+                            {
+                                values.map((e, index) => { 
+                                    return (
+                                        <li key={index} style={{opacity: 1, height:"auto", overflow:"hidden"}}>
+                                            <NewToggleButton ref={el => {el && inputRef.current.push(el)}}  w={'212px'} h={'20px'} rightSvg={'more.svg'} title={e.text} onPrimaryAction={cleanUp} isSelected={false}></NewToggleButton>
+                                        </li>
+                                    )
+                                })
+                            }
+                        </ol>
+                    </div>
+                  )
+              }
+            })}
+          </span>
+        );
+    };
 
     return (
         <div className="container-fluid d-flex flex-row flex-nowrap align-items-center p-0" style={{backgroundColor:"white"}}>
@@ -53,20 +117,14 @@ function ChatGPT() {
                                         {/* New chat按钮 */}
                                         <div style={{paddingTop:".875rem"}}>
                                             <div style={{paddingBottom:"0"}}>
-                                                <NewChatButton w={'228px'} h={'2.5rem'} title={'New chat'} leftSvg={"NewChat.svg"} rightSvg={"NewEdit.svg"} isToggleButton={false} onPrimaryAction={() => {}} onSecondaryAction={() => {}}></NewChatButton>
+                                                <NewChatButton w={'228px'} h={'2.5rem'} title={'New chat'} leftSvg={"NewChat.svg"} rightSvg={"NewEdit.svg"} onPrimaryAction={newChat}></NewChatButton>
                                             </div>
                                         </div>
                                         <div className='d-flex flex-column flex-nowrap' style={{color:"rgba(236,236,241,1)", fontSize:".875rem", lineHeight:"1.25rem", paddingBottom:".5rem", gap:".5rem"}}>
                                             <div>
-                                                <span>
-
-                                                </span>
-                                                <span>
-
-                                                </span>
-                                                <span>
-
-                                                </span>
+                                                {showTimeframe(monthsInReverseOrder.slice(0, 4))}
+                                                {showTimeframe(monthsInReverseOrder.slice(4, 15))}
+                                                {showTimeframe(monthsInReverseOrder.slice(15))}
                                             </div>
                                         </div>
                                     </div>

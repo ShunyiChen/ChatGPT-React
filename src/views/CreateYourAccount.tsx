@@ -98,7 +98,7 @@ function CreateYourAccount(props: CreateYourAccountProps) {
                 </div>
             </main>
             <footer className='d-flex flex-row justify-content-center align-items-center' style={{padding:"12px 0 24px", fontSize:"14px"}}>
-                <a href="https://openai.com/policies/terms-of-use" target="_blank" className="mx-2 text-decoration-none  align-items-end" rel="noreferrer" style={{color:"#10A37F", textAlign:"right", width:"auto"}}>Terms of use</a>
+                <a href="https://openai.com/policies/terms-of-use" target="_blank" className="mx-2 text-decoration-none align-items-end" rel="noreferrer" style={{color:"#10A37F", textAlign:"right", width:"auto"}}>Terms of use</a>
                 <span className='link-secondary'>|</span>
                 <a href="https://openai.com/policies/privacy-policy" target="_blank" className="mx-2 text-decoration-none" rel="noreferrer" style={{color:"#10A37F", width:"auto"}}>Privacy policy</a>
             </footer>

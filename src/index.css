@@ -15,6 +15,7 @@ html, body, a, h1{
 :root {
   --border-default-color: #C2C8D0;
   --border-button-default-color: #10A37F;
+  --tw-gradient-stops:#202123, hsla(240,7%,97%,0);
 }
 /************ Input Group ************/
 .form-control {
@@ -191,9 +192,16 @@ input:-webkit-autofill {
 
 /************ New Toggle按钮 ************/
 .NewToggleButton {
-  background-color: transparent;
+  background-color: transparent !important;
+  --tw-gradient-stops:#000, hsla(240,7%,97%,0);
 }
 
 .NewToggleButton:hover {
-  background-color: #202123;
+  --tw-gradient-stops:#202123, hsla(240,7%,97%,0);
+  background-color: #202123 !important;
+}
+
+/************ NewToggleButton渐变 ************/
+.NewToggleButtonGradient {
+  background-image: linear-gradient(to left,var(--tw-gradient-stops));
 }
