@@ -1,15 +1,9 @@
 <!-- //创建项目 -->
 
-# Build a ChatGPT clone
+# Build your own ChatGPT clone with TypeScript
 
-## 项目介绍
-
-Build a ChatGPT clone app
-
-<!-- 启动 -->
-
-## 启动项目
 
 ```shell
+# Start up
 npm run dev
 ```
