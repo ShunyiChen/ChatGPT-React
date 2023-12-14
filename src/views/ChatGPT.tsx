@@ -5,12 +5,15 @@ import NewChatButton from '../components/NewChatButton';
 import { isDateBeforeThisYear, isDateInCurrentYearMonth, isToday, isWithinLast30Days, isWithinLast7Days, isYesterday } from '../utils/Common';
 import {dummay_conversations} from '../data/DummyData'
 import NewToggleButton, { NewToggleButtonRef } from '../components/NewToggleButton';
+import UpgradePlanButton from '../components/UpgradePlanButton';
 
 type Conversation = {
     text: string,
     date_created: string, 
     chat_id: string
 }
+
+const conversations = dummay_conversations()
 
 const monthsInReverseOrder: string[] = [
     'Today','Yesterday','Previous 7 Days','Previous 30 Days',
@@ -21,7 +24,7 @@ const monthsInReverseOrder: string[] = [
 
 const monthMap: Map<string, Conversation[]> = new Map();
 
-function init() {
+function init(data: Conversation[]) {
     console.log('-------------------------------------------')
     monthsInReverseOrder.forEach((month) => {
       monthMap.set(month, []);
@@ -36,7 +39,7 @@ function init() {
         isDateBeforeThisYear
       ];
 
-    dummay_conversations().forEach(e => {
+    data.forEach(e => {
         const date = new Date(e.date_created)
         for (let i = 0; i < dateCheckFunctions.length; i++) {
             if (dateCheckFunctions[i](date)) {
@@ -48,16 +51,9 @@ function init() {
     })
 }
 
-
-
 function ChatGPT() {
-    const s = {text: "a",
-        date_created: "2023-12-10 21:48:10.973297",
-        chat_id: "c11"}
-    const dd =  dummay_conversations().push(s)
-    init()
-    
-
+    let i = 0
+    const [dataElements, setDataElements] = useState<JSX.Element[]>()
     const inputRef = useRef<NewToggleButtonRef[]>([]);
 
     const cleanUp = () => {
@@ -65,13 +61,30 @@ function ChatGPT() {
     }
     
     const newChat = () => {
+        const newConversation = {
+            text: "abcd",
+            date_created: new Date().toDateString(),
+            chat_id: "dac83f10-5b15-47c5-bfe2-20cb60508801"
+        };
+        conversations.push(newConversation)
+        updateDataElements()
 
+        // console.log('new chat added')
+    }
+
+    const updateDataElements = () => {
+        init(conversations)
+        const newDataElements = [
+            showTimeframe(monthsInReverseOrder.slice(0, 4)), 
+            showTimeframe(monthsInReverseOrder.slice(4, 15)),
+            showTimeframe(monthsInReverseOrder.slice(15))
+        ]
+        setDataElements(newDataElements)
     }
 
     const showTimeframe = (monthsToIterate: string[]) => {
-        
         return (
-          <span>
+          <span key={i++}>
             {monthsToIterate.map((month, idx) => {
               const values = monthMap.get(month);
               if(values && values.length > 0) {
@@ -103,6 +116,10 @@ function ChatGPT() {
         );
     };
 
+    useEffect(() => {
+        updateDataElements()
+    }, []);
+
     return (
         <div className="container-fluid d-flex flex-row flex-nowrap align-items-center p-0" style={{backgroundColor:"white"}}>
             {/* 左侧面板 */}
@@ -122,11 +139,12 @@ function ChatGPT() {
                                         </div>
                                         <div className='d-flex flex-column flex-nowrap' style={{color:"rgba(236,236,241,1)", fontSize:".875rem", lineHeight:"1.25rem", paddingBottom:".5rem", gap:".5rem"}}>
                                             <div>
-                                                {showTimeframe(monthsInReverseOrder.slice(0, 4))}
-                                                {showTimeframe(monthsInReverseOrder.slice(4, 15))}
-                                                {showTimeframe(monthsInReverseOrder.slice(15))}
+                                                {dataElements}
                                             </div>
                                         </div>
+                                    </div>
+                                    <div className='d-flex flex-column' style={{borderColor:"hsla(0,0%,100%,.2)", paddingTop:".5rem"}}>
+                                        <UpgradePlanButton w={'236px'} h={'36px'} title={'Upgrade plan'} content={'Get GPT-4, DALL·E, and more'} leftSvg='Star.svg' onPrimaryAction={() => {}}></UpgradePlanButton>
                                     </div>
                                 </nav>
 

@@ -19,6 +19,7 @@ import CreateYourAccount from './views/CreateYourAccount'
 import VerifyYourEmail from './views/VerifyYourEmail';
 import CreateYourAccountPwd from './views/CreateYourAccountPwd';
 import ChatGPT from './views/ChatGPT';
+import Oops from './views/Oops';
 
 // let currentChatId = ""
 
@@ -75,6 +76,10 @@ function App() {
     {
       path: "/",
       element: <ChatGPT />
+    },
+    {
+      path: "/auth/error",
+      element: <Oops />
     },
     {
       path: "*",

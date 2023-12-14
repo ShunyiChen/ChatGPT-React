@@ -13,9 +13,9 @@ type NewChatButtonProps = {
 }
 
 function NewChatButton(props: NewChatButtonProps) {
-    const {w, h, leftSvg, rightSvg, title} = props
+    const {w, h, leftSvg, rightSvg, title, tips, onPrimaryAction} = props
     return (
-        <a className='d-flex flex-row flex-nowrap align-items-center NewChatButton m-0' style={{width:w, height:h, padding:"0px 8px", gap:"0.5rem"}}>
+        <a className='d-flex flex-row flex-nowrap align-items-center NewChatButton m-0' style={{width:w, height:h, padding:"0px 8px", gap:"0.5rem"}} onClick={onPrimaryAction}>
             <div className='flex-shrink-0' style={{width:"1.75rem", height:"1.75rem"}}>
                 <div className='d-flex flex-row flex-nowrap justify-content-center align-items-center'
                      style={{color:"rgba(0,0,0,1)", backgroundColor:"rgba(255,255,255,1)", position:"relative", borderRadius:"9999px", height:"100%"}}>

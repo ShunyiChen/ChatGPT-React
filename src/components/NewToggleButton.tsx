@@ -28,15 +28,16 @@ function NewToggleButton(props: NewToggleButtonProps, ref: Ref<NewToggleButtonRe
     }))
 
     return (
-        <div className='NewToggleButton' style={{position:"relative", cursor:"pointer", backgroundColor:"#202123",  borderRadius:".5rem"}} onClick={() => {
+        <div className='NewToggleButton' style={{position:"relative", cursor:"pointer", borderRadius:".5rem", backgroundColor:selected?"#202123":"transparent", "--tw-gradient-stops":selected?"#202123 20%, hsla(240,7%,97%,0) 80%":""}}
+        onClick={() => {
             onPrimaryAction()
-            setSelected(!selected)
+            setSelected(true)
         }}>
             <a className="d-flex flex-row flex-nowrap align-items-center text-decoration-none"
                 style={{padding:".5rem", borderRadius:".5rem", gap:".5rem"}}>
                 <div className='flex-grow-1' style={{color:"#ECECF1",whiteSpace:"nowrap", overflow:"hidden", position:"relative", width:w, height:h, fontSize:"13px"}}>
                     {title}
-                    <div className='NewToggleButtonGradient' style={{width:"2rem", top:"0", right:"0", bottom:"0", position:"absolute"}}></div>
+                    <div className='NewToggleButtonGradient' style={{width:selected?"5rem":"2rem", top:"0", right:"0", bottom:"0", position:"absolute"}}></div>
                 </div>
             </a>
             {selected?

@@ -15,7 +15,7 @@ html, body, a, h1{
 :root {
   --border-default-color: #C2C8D0;
   --border-button-default-color: #10A37F;
-  --tw-gradient-stops:#202123, hsla(240,7%,97%,0);
+  --tw-gradient-stops:#202123,hsla(240,7%,97%,0);
 }
 /************ Input Group ************/
 .form-control {
@@ -144,9 +144,6 @@ input:-webkit-autofill {
 
 /************ Resend email按钮 ************/
 .ResendButton {
-  /* height: 52px;
-  width: 320px;
-  text-align: left; */
   font-size: 14px !important;
   font-weight: 500 !important;
   --bs-btn-color: #10A37F !important;
@@ -192,16 +189,23 @@ input:-webkit-autofill {
 
 /************ New Toggle按钮 ************/
 .NewToggleButton {
-  background-color: transparent !important;
-  --tw-gradient-stops:#000, hsla(240,7%,97%,0);
+  --tw-gradient-stops:#000 20%, hsla(240,7%,97%,0) 80%;
 }
 
 .NewToggleButton:hover {
-  --tw-gradient-stops:#202123, hsla(240,7%,97%,0);
+  --tw-gradient-stops:#202123 20%, hsla(240,7%,97%,0) 80%;
   background-color: #202123 !important;
 }
 
 /************ NewToggleButton渐变 ************/
 .NewToggleButtonGradient {
   background-image: linear-gradient(to left,var(--tw-gradient-stops));
+}
+
+/************ UpgradePlanButton渐变 ************/
+.UpgradePlanButton {
+}
+
+.UpgradePlanButton:hover {
+  background-color: #202123 !important;
 }
