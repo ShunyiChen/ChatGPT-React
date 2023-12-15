@@ -7,3 +7,4 @@
 # Start up
 npm run dev
 ```
+![](ChatGPT Clone.png)
