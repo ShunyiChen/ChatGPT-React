@@ -129,10 +129,10 @@ function ChatGPT() {
     useEffect(() => {
         updateDataElements()
         if(dd === 0) {
-            // openTipsForGettingStarted()
-            console.log('----')
+            openTipsForGettingStarted()
+            console.log('----', dd)
         }
-        // dd++
+        dd++
          
 
     }, []);
@@ -166,7 +166,7 @@ function ChatGPT() {
                                     <div className="d-flex flex-row flex-nowrap align-items-center">
                                         <div className='flex-grow-1'>
                                             <div style={{position:"relative"}}>
-                                                <UserProfileButton w={'236px'} h={'48px'}></UserProfileButton>
+                                                <UserProfileButton w={'236px'} h={'48px'} name={'Simeon Chen'}></UserProfileButton>
                                             </div>
                                         </div>
                                     </div>

@@ -5,18 +5,16 @@ import { useLocation, useNavigate } from 'react-router-dom'
 type UserProfileButtonProps = {
     w: string
     h: string
-    // leftSvg: string
-    // title: string
-    // content: string
-    // onPrimaryAction: () => void
+    name: string
 }
 
 function UserProfileButton(props: UserProfileButtonProps) {
-    const {w, h} = props
+    const {w, h, name} = props
     return (
         <button className='btn btn-secondary d-flex flex-row flow-nowrap align-items-center justify-content-start'
-            style={{fontSize:"0.875rem", lineHeight:"1.25rem", padding:"0.5rem",gap:"0.5rem", borderRadius:"0.5rem", width:w, height:h,
-                 "--bs-btn-bg":"transparent", "--bs-btn-hover-border-color":"transparent", "--bs-btn-hover-bg":"#202123", "--bs-btn-border-color":"transparent"}}>
+            style={{fontSize:"0.875rem", lineHeight:"1.25rem", padding:"0.5rem", paddingLeft:"0.45rem" ,gap:"0.5rem", borderRadius:"0.5rem", width:w, height:h,
+                 "--bs-btn-bg":"transparent", "--bs-btn-hover-border-color":"transparent", "--bs-btn-hover-bg":"#202123", "--bs-btn-border-color":"transparent",
+                  "--bs-btn-active-bg":"#202123", "--bs-btn-active-border-color":"transparent"}}>
             
             <div className='flex-shrink-0'>
                 <div className="d-flex flex-row align-items-center justify-content-center">
@@ -26,8 +24,8 @@ function UserProfileButton(props: UserProfileButtonProps) {
                     </div>
                 </div>
             </div>
-            <div className="relative -top-px grow -space-y-px overflow-hidden text-ellipsis whitespace-nowrap text-left text-gray-700 dark:text-white">
-                <div className="font-semibold" style={{fontWeight:"550", fontSize:"0.8rem"}}>Jugi Qin</div>
+            <div className="overflow-hidden text-start">
+                <div className="font-semibold" style={{fontWeight:"550", fontSize:"0.8rem"}}>{name}</div>
             </div>
         </button>
     )

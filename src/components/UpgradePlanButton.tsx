@@ -22,7 +22,7 @@ function UpgradePlanButton(props: UpgradePlanButtonProps) {
             <span className='d-flex flex-row flex-wrap-reverse w-100' style={{justifyContent:"space-between"}}>
                 <div className='d-flex flex-row align-items-center' style={{gap:"0.5rem"}}>
                     
-                    <span className='d-flex flex-row align-items-center justify-content-center' style={{backgroundColor:"rgba(0,0,0,1)", borderColor:"rgba()217,217,227,.1", borderWidth:'1px', borderRadius:"9999px", width:"1.75rem", height:"1.75rem"}}>
+                    <span className='d-flex flex-row align-items-center justify-content-center' style={{backgroundColor:"rgba(0,0,0,1)", border:"1px solid rgba(217,217,227,.1)", borderRadius:"9999px", width:"1.75rem", height:"1.75rem"}}>
                         <img className='flex-shrink-0' src={getIcon(leftSvg)} alt="" style={{strokeWidth:"2", height:"1rem", width:"1rem", fontSize:".875rem", lineHeight:"1.25rem", cursor:"pointer"}}/>
                     </span>
 
