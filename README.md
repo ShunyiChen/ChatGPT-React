@@ -7,5 +7,5 @@
 # Start up
 npm run dev
 ```
-Screenshot:
-![](ChatGPT Clone.png)
+#Screenshot:
+![chatgpt clone](./ChatGPT%20Clone.png "ChatGPT Clone")
