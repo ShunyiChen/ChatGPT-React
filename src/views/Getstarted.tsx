@@ -19,7 +19,7 @@ function Getstarted() {
     const [hi, setHi] = useState(false)
     const [stop, setStop] = useState(false);
     const [typing, setTyping] = useState("")
-    const [capacity, setCapacity] = useState(false)
+    const [capacity, setCapacity] = useState(true)
 
     const msg = [
         { topic: "Brainstorm names", info: ["for an orange cat we're adopting from the shelter", "for my fantasy football team"], wait: 10000 },
@@ -116,11 +116,9 @@ function Getstarted() {
                             <div style={{paddingBottom:"2rem", maxWidth:"32rem"}}>
                                 <span style={{whiteSpace:"pre-wrap"}}>
                                     <span>
-                                        1. ChatGPT is experiencing high traffic at the moment.
-                                        <br/>
-                                        2. The developers are working hard to accommodate all users.
-                                        <br/>
-                                        3. ChatGPT can predict the future with 100% accuracy.
+                                        <p className='p-0 m-0'>1. ChatGPT is experiencing high traffic at the moment.</p>
+                                        <p className='p-0 m-0'>2. The developers are working hard to accommodate all users.</p>
+                                        <p className='p-0 m-0'>3. ChatGPT can predict the future with 100% accuracy.</p>
                                     </span>
                                 </span>
                             </div>

@@ -209,3 +209,7 @@ input:-webkit-autofill {
 .UpgradePlanButton:hover {
   background-color: #202123 !important;
 }
+
+.text-orange-300 {
+  color: rgba(255,160,69,var(1));
+}

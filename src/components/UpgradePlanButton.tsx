@@ -27,7 +27,7 @@ function UpgradePlanButton(props: UpgradePlanButtonProps) {
                     </span>
 
                     <div className='d-flex flex-column' style={{border:"0 solid #D9D9E3", boxSizing:"border-box", color:"rgba(255,255,255,1)", fontSize:".875rem", lineHeight:"1.25rem", cursor:"pointer"}}>
-                        <span style={{fontWeight:"600", border:"0 solid #D9D9E3", boxSizing:"border-box", color:"rgba(255,255,255,1)", fontSize:".875rem", lineHeight:"1.25rem", cursor:"pointer"}}>{title}</span>
+                        <span style={{fontWeight:"600", border:"0 solid #D9D9E3", boxSizing:"border-box", color:"rgba(255,255,255,1)", fontSize:".8rem", lineHeight:"1.25rem", cursor:"pointer"}}>{title}</span>
                         <span className="" style={{color:"rgb(197, 197, 210)", fontSize:".75rem", lineHeight:"1rem", overflow:"hidden", display:"-webkit-box"}}>{content}</span>
                     </div>
                 </div>

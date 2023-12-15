@@ -2,10 +2,12 @@ import { useState, useRef, useEffect, createRef  } from 'react'
 import { useNavigate, useLocation } from "react-router-dom";
 import NewTextField, { TextFieldType } from '../components/NewTextField'
 import NewChatButton from '../components/NewChatButton';
-import { isDateBeforeThisYear, isDateInCurrentYearMonth, isToday, isWithinLast30Days, isWithinLast7Days, isYesterday } from '../utils/Common';
+import { getIcon, isDateBeforeThisYear, isDateInCurrentYearMonth, isToday, isWithinLast30Days, isWithinLast7Days, isYesterday } from '../utils/Common';
 import {dummay_conversations} from '../data/DummyData'
 import NewToggleButton, { NewToggleButtonRef } from '../components/NewToggleButton';
 import UpgradePlanButton from '../components/UpgradePlanButton';
+import { Modal } from 'bootstrap';
+import UserProfileButton from '../components/UserProfileButton';
 
 type Conversation = {
     text: string,
@@ -115,9 +117,24 @@ function ChatGPT() {
           </span>
         );
     };
-
+    
+    const openTipsForGettingStarted = () => {
+        let model = new Modal('#TipsForGettingStartedModel', {
+            keyboard: false
+        })
+        model.show()
+    }
+    
+    let dd = 0;
     useEffect(() => {
         updateDataElements()
+        if(dd === 0) {
+            // openTipsForGettingStarted()
+            console.log('----')
+        }
+        // dd++
+         
+
     }, []);
 
     return (
@@ -146,21 +163,88 @@ function ChatGPT() {
                                     <div className='d-flex flex-column' style={{borderColor:"hsla(0,0%,100%,.2)", paddingTop:".5rem"}}>
                                         <UpgradePlanButton w={'236px'} h={'36px'} title={'Upgrade plan'} content={'Get GPT-4, DALL·E, and more'} leftSvg='Star.svg' onPrimaryAction={() => {}}></UpgradePlanButton>
                                     </div>
+                                    <div className="d-flex flex-row flex-nowrap align-items-center">
+                                        <div className='flex-grow-1'>
+                                            <div style={{position:"relative"}}>
+                                                <UserProfileButton w={'236px'} h={'48px'}></UserProfileButton>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </nav>
 
                             </div>
                         </div>
                     </div>
                 </div>
-               
-
-                
             </div>
 
             {/* 右侧面板 */}
-            <div className='d-flex flex-column flex-nowrap flex-shrink-1 flex-grow-1' style={{overflow:"hidden", flexBasis:"0%", backgroundColor:"grey", height:"100%"}}>
+            <div className='d-flex flex-column flex-nowrap flex-shrink-1 flex-grow-1' style={{overflow:"hidden", flexBasis:"0%", backgroundColor:"white", height:"100%"}}>
                 
             </div>
+
+            {/* <!-- TipsForGettingStartedModel --> */}
+            <div className="modal" tabIndex={-1} id="TipsForGettingStartedModel" style={{"--bs-modal-width":"768px"}}>
+                <div className="modal-dialog modal-dialog-centered" >
+                    <div className="modal-content">
+                        <div className="modal-header" style={{padding:"24px"}}>
+                            <div className='d-flex flex-column align-items-start' style={{gap:".25rem"}}>
+                                <h2 className="modal-title" id="staticBackdropLabel" style={{color:"rgba(32,33,35,1)", lineHeight:"1.5rem", fontWeight:"500", fontSize:"18px"}}>ChatGPT</h2>
+                                <p id="radix-:r1j:" className="m-0" style={{color:"rgba(142,142,160,1)", fontSize:".875rem", lineHeight:"1.25rem"}}>Tips for getting started</p>
+                            </div>
+                        </div>
+                        <div className="modal-body p-0">
+                            <div className='d-flex flex-column' style={{gap:"0.75rem", padding:"24px"}}>
+                                <div className='d-flex flex-row' style={{gap:"2rem"}}>
+                                    {/* 左 */}
+                                    <div className='d-flex flex-column' style={{gap:"0.5rem"}}>
+                                        <div className='d-flex flex-row align-items-center' style={{gap:"0.5rem"}}>
+                                            <div>
+                                                <img src={getIcon('Askaway.svg')} alt="" />
+                                            </div>
+                                            <div className="" style={{color:"#0f0f0f", fontWeight:"550", fontSize:"0.875rem"}}>Ask away</div>
+                                        </div>
+                                        <div className="" style={{color:"#666", fontSize:"0.82rem", lineHeight:"1.25rem"}}>ChatGPT can answer questions, help you learn, write code, brainstorm together, and much more.</div>
+                                    </div>
+                                    {/* 中 */}
+                                    <div className='d-flex flex-column' style={{gap:"0.5rem"}}>
+                                        <div className='d-flex flex-row align-items-center ' style={{gap:"0.5rem"}}>
+                                            <div style={{height:"28px"}}>
+                                                <img src={getIcon('Sensitive.svg')} alt="" />
+                                            </div>
+                                            <div className="" style={{color:"#0f0f0f", fontWeight:"550", fontSize:"0.875rem"}}>Don’t share sensitive info</div>
+                                        </div>
+                                        <div className="" style={{color:"#666", fontSize:"0.8rem", lineHeight:"1.25rem"}}>
+                                                Chat history may be reviewed or used to improve our services.Learn more about your choices in our
+                                                <p className='m-0 p-0'>
+                                                    <a href="https://help.openai.com/en/articles/7039943-data-usage-for-consumer-services-faq" style={{fontSize:"0.8rem",textDecorationLine:"underline", color:"#666"}}>Help Center.</a>
+                                                </p>
+                                        </div>
+                                    </div>
+                                    {/* 右 */}
+                                    <div className='d-flex flex-column' style={{gap:"0.5rem"}}>
+                                        <div className='d-flex flex-row align-items-center' style={{gap:"0.5rem"}}>
+                                            <div style={{height:"28px"}}>
+                                                <img src={getIcon('Facts.svg')} alt="" />
+                                            </div>
+                                            <div className="" style={{color:"#0f0f0f", fontWeight:"550", fontSize:"0.875rem"}}>Check your facts</div>
+                                        </div>
+                                        <div className="" style={{color:"#666", fontSize:"0.8rem", lineHeight:"1.25rem"}}>While we have safeguards, ChatGPT may give you inaccurate information. It’s not intended to give advice.</div>
+                                    </div>
+                                </div>
+                                <div className="d-flex flex-row align-items-center justify-content-end" style={{width:"100%"}}>
+                                    <button className="btn relative" style={{"--bs-btn-bg":"#10A37F", "--bs-btn-hover-bg":"rgb(26,127,100)", "--bs-btn-active-bg":"rgb(26,127,100)"}} data-bs-dismiss="modal">
+                                        <div className="d-flex gap-2 align-items-center justify-content-center" style={{fontSize:"0.8rem", color:"white"}}>Okay, let’s go</div>
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
         </div>
     )

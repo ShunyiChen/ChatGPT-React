@@ -565,8 +565,8 @@
 }
 
 .modal-backdrop {
-  opacity: 0.7 !important;
-  background-color: rgb(86,88,105) !important;
+  /* opacity: 0.7 !important;
+  background-color: rgb(86,88,105) !important; */
 }
 
 /* ----------------------------- Markdown ---------------------------- */

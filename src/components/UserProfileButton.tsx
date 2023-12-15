@@ -5,34 +5,31 @@ import { useLocation, useNavigate } from 'react-router-dom'
 type UserProfileButtonProps = {
     w: string
     h: string
-    leftSvg: string
-    title: string
-    content: string
-    onPrimaryAction: () => void
+    // leftSvg: string
+    // title: string
+    // content: string
+    // onPrimaryAction: () => void
 }
 
 function UserProfileButton(props: UserProfileButtonProps) {
-    const {w, h, leftSvg, title, content, onPrimaryAction} = props
+    const {w, h} = props
     return (
-        <a className='d-flex flex-row flex-nowrap align-items-center justify-content-center m-0 text-decoration-none UpgradePlanButton'
-            style={{width:w, height:h, padding:"0px 8px", gap:"0.75rem", color:"rgba(255,255,255,1)", fontSize:".875rem", lineHeight:"1.25rem", paddingBottom:".25rem", paddingTop:".25rem", 
-            paddingLeft:".5rem", paddingRight:".5rem", borderRadius:".5rem", minHeight:"44px", cursor:"pointer"}} 
-            onClick={onPrimaryAction}>
+        <button className='btn btn-secondary d-flex flex-row flow-nowrap align-items-center justify-content-start'
+            style={{fontSize:"0.875rem", lineHeight:"1.25rem", padding:"0.5rem",gap:"0.5rem", borderRadius:"0.5rem", width:w, height:h,
+                 "--bs-btn-bg":"transparent", "--bs-btn-hover-border-color":"transparent", "--bs-btn-hover-bg":"#202123", "--bs-btn-border-color":"transparent"}}>
             
-            <span className='d-flex flex-row flex-wrap-reverse w-100' style={{justifyContent:"space-between"}}>
-                <div className='d-flex flex-row align-items-center' style={{gap:"0.5rem"}}>
-                    
-                    <span className='d-flex flex-row align-items-center justify-content-center' style={{backgroundColor:"rgba(0,0,0,1)", borderColor:"rgba()217,217,227,.1", borderWidth:'1px', borderRadius:"9999px", width:"1.75rem", height:"1.75rem"}}>
-                        <img className='flex-shrink-0' src={getIcon(leftSvg)} alt="" style={{strokeWidth:"2", height:"1rem", width:"1rem", fontSize:".875rem", lineHeight:"1.25rem", cursor:"pointer"}}/>
-                    </span>
-
-                    <div className='d-flex flex-column' style={{border:"0 solid #D9D9E3", boxSizing:"border-box", color:"rgba(255,255,255,1)", fontSize:".875rem", lineHeight:"1.25rem", cursor:"pointer"}}>
-                        <span style={{fontWeight:"600", border:"0 solid #D9D9E3", boxSizing:"border-box", color:"rgba(255,255,255,1)", fontSize:".875rem", lineHeight:"1.25rem", cursor:"pointer"}}>{title}</span>
-                        <span className="" style={{color:"rgb(197, 197, 210)", fontSize:".75rem", lineHeight:"1rem", overflow:"hidden", display:"-webkit-box"}}>{content}</span>
+            <div className='flex-shrink-0'>
+                <div className="d-flex flex-row align-items-center justify-content-center">
+                    <div className="relative flex">
+                        <img alt="User" loading="lazy" width="32" height="32" decoding="async" data-nimg="1"  src="https://s.gravatar.com/avatar/93e37a381d6a363da4929301ca1a57cb?s=480&amp;r=pg&amp;d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fzo.png"
+                             style={{color: "transparent", borderRadius:"9999px", verticalAlign:"middle"}} />
                     </div>
                 </div>
-            </span>
-        </a>
+            </div>
+            <div className="relative -top-px grow -space-y-px overflow-hidden text-ellipsis whitespace-nowrap text-left text-gray-700 dark:text-white">
+                <div className="font-semibold" style={{fontWeight:"550", fontSize:"0.8rem"}}>Jugi Qin</div>
+            </div>
+        </button>
     )
 }
 
