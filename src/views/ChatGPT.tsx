@@ -56,6 +56,8 @@ function init(data: Conversation[]) {
 function ChatGPT() {
     let i = 0
     const [dataElements, setDataElements] = useState<JSX.Element[]>()
+    const [loading, setLoading] = useState(true)
+    const [loadSuccess, setLoadSuccess] = useState(false)
     const inputRef = useRef<NewToggleButtonRef[]>([]);
 
     const cleanUp = () => {
@@ -82,6 +84,9 @@ function ChatGPT() {
             showTimeframe(monthsInReverseOrder.slice(15))
         ]
         setDataElements(newDataElements)
+
+        setLoading(false)
+        setLoadSuccess(false)
     }
 
     const showTimeframe = (monthsToIterate: string[]) => {
@@ -127,15 +132,23 @@ function ChatGPT() {
     
     let dd = 0;
     useEffect(() => {
-        updateDataElements()
+        setTimeout(() => {
+            updateDataElements()
+        }, 1000);
         if(dd === 0) {
-            openTipsForGettingStarted()
+            // openTipsForGettingStarted()
             console.log('----', dd)
         }
         dd++
-         
 
     }, []);
+
+    const retry = () => {
+        setLoading(true)
+        setTimeout(() => {
+            updateDataElements()
+        }, 1000);
+    }
 
     return (
         <div className="container-fluid d-flex flex-row flex-nowrap align-items-center p-0" style={{backgroundColor:"white"}}>
@@ -147,19 +160,37 @@ function ChatGPT() {
                             <div className='flex-grow-1 flex-shrink-1 w-100 h-100' style={{borderColor: "hsla(0,0%,100%,.2)", position:"relative", flexBasis:"0%"}}>
                                 <nav className='d-flex flex-column flex-nowrap w-100 h-100' style={{paddingBottom:"0.875rem", paddingLeft:"0.75rem", paddingRight:"0.75rem"}}>
                                     
-                                    <div className='flex-grow-1 flex-shrink-1 w-100 h-100' style={{paddingRight:"0.5rem", overflowY:"auto", flexBasis:"0%", marginRight:"-0.5rem"}}>
-                                        {/* New chat按钮 */}
-                                        <div style={{paddingTop:".875rem"}}>
-                                            <div style={{paddingBottom:"0"}}>
-                                                <NewChatButton w={'228px'} h={'2.5rem'} title={'New chat'} leftSvg={"NewChat.svg"} rightSvg={"NewEdit.svg"} onPrimaryAction={newChat}></NewChatButton>
-                                            </div>
-                                        </div>
-                                        <div className='d-flex flex-column flex-nowrap' style={{color:"rgba(236,236,241,1)", fontSize:".875rem", lineHeight:"1.25rem", paddingBottom:".5rem", gap:".5rem"}}>
-                                            <div>
-                                                {dataElements}
-                                            </div>
+                                    {/* New chat按钮 */}
+                                    <div style={{paddingTop:".875rem"}}>
+                                        <div style={{paddingBottom:"0"}}>
+                                            <NewChatButton w={'228px'} h={'2.5rem'} title={'New chat'} leftSvg={"NewChat.svg"} rightSvg={"NewEdit.svg"} onPrimaryAction={newChat}></NewChatButton>
                                         </div>
                                     </div>
+                                    {/* Conversations */}
+                                    {(loading)?
+                                    <div className='d-flex flex-column align-items-center justify-content-center' style={{height:"100%"}}>
+                                        <div className="spinner-border spinner-border-sm" role="status">
+                                            <span className="visually-hidden">Loading...</span>
+                                        </div>
+                                    </div>:
+                                        (!loadSuccess)?
+                                            <div className='d-flex flex-column align-items-center justify-content-center' style={{height:"100%"}}>
+                                                <div className='m-0 p-0 text-center' style={{color:"rgba(142,142,160,1)", fontStyle:"italic", fontSize:"14px"}}>Unable to load history
+                                                    <div style={{marginTop:".25rem"}}>
+                                                        <button className='btn btn-light' style={{fontSize:".8rem", marginTop:"8px","--bs-btn-bg":"#202123", 
+                                                            "--bs-btn-color":"rgba(142,142,160,1)", "--bs-btn-border-color":"#202123", "--bs-btn-hover-border-color":"#202123"}} onClick={retry}>Retry</button>
+                                                    </div>
+                                                </div>
+                                            </div> : 
+                                            <div className='d-flex flex-column flex-nowrap' style={{color:"rgba(236,236,241,1)", fontSize:".875rem",
+                                                lineHeight:"1.25rem", paddingBottom:".5rem", gap:".5rem", overflowY:"auto", height:"100%"}}>
+                                                <div>
+                                                    {dataElements}
+                                                </div>
+                                            </div>
+                                    }
+
+                                    {/* 底部按钮 */}
                                     <div className='d-flex flex-column' style={{borderColor:"hsla(0,0%,100%,.2)", paddingTop:".5rem"}}>
                                         <UpgradePlanButton w={'236px'} h={'36px'} title={'Upgrade plan'} content={'Get GPT-4, DALL·E, and more'} leftSvg='Star.svg' onPrimaryAction={() => {}}></UpgradePlanButton>
                                     </div>

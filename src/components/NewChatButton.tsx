@@ -22,7 +22,7 @@ function NewChatButton(props: NewChatButtonProps) {
                     {leftSvg?<img src={getIcon(leftSvg)} alt="" style={{width:"66.6%", height:"66.6%"}}/>:<></>}
                 </div>
             </div>
-            <div className='flex-grow-1' style={{color:"#ECECF1", fontSize:".875rem", lineHeight:"1.25rem", whiteSpace:"nowrap", textOverflow:"ellipsis", overflow:"hidden"}}>
+            <div className='flex-grow-1' style={{color:"#ECECF1", fontSize:".8rem", lineHeight:"1.25rem", whiteSpace:"nowrap", textOverflow:"ellipsis", overflow:"hidden"}}>
                 {title}
             </div>
             <div className='d-flex flex-row flex-nowrap' style={{gap:".75rem"}}>
