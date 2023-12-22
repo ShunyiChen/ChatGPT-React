@@ -1,128 +1,10 @@
 import { useState, useRef, useEffect, createRef  } from 'react'
-import { useNavigate, useLocation } from "react-router-dom";
-import NewTextField, { TextFieldType } from '../components/NewTextField'
-import NewChatButton from '../components/NewChatButton';
-import { getIcon, isDateBeforeThisYear, isDateInCurrentYearMonth, isToday, isWithinLast30Days, isWithinLast7Days, isYesterday } from '../utils/Common';
-import {dummay_conversations} from '../data/DummyData'
-import NewToggleButton, { NewToggleButtonRef } from '../components/NewToggleButton';
-import UpgradePlanButton from '../components/UpgradePlanButton';
+import { getIcon } from '../utils/Common';
 import { Modal } from 'bootstrap';
-import UserProfileButton from '../components/UserProfileButton';
-
-type Conversation = {
-    text: string,
-    date_created: string, 
-    chat_id: string
-}
-
-const conversations = dummay_conversations()
-
-const monthsInReverseOrder: string[] = [
-    'Today','Yesterday','Previous 7 Days','Previous 30 Days',
-    'December', 'November', 'October', 'September',
-    'August', 'July', 'June', 'May', 'April',
-    'March', 'February', 'January', 'Prior To This Year'
-];
-
-const monthMap: Map<string, Conversation[]> = new Map();
-
-function init(data: Conversation[]) {
-    console.log('-------------------------------------------')
-    monthsInReverseOrder.forEach((month) => {
-      monthMap.set(month, []);
-    });
-
-    const dateCheckFunctions = [
-        isToday,
-        isYesterday,
-        isWithinLast7Days,
-        isWithinLast30Days,
-        ...Array.from({ length: 12 }, (_, i) => (date:Date) => isDateInCurrentYearMonth(date, 12 - i)),
-        isDateBeforeThisYear
-      ];
-
-    data.forEach(e => {
-        const date = new Date(e.date_created)
-        for (let i = 0; i < dateCheckFunctions.length; i++) {
-            if (dateCheckFunctions[i](date)) {
-              const monthKey = monthsInReverseOrder[i];
-              monthMap.get(monthKey)?.push(e);
-              break;
-            }
-        }
-    })
-}
+import NewNavBar from '../components/NewNavBar';
 
 function ChatGPT() {
-    let i = 0
-    const [dataElements, setDataElements] = useState<JSX.Element[]>()
-    const [loading, setLoading] = useState(true)
-    const [loadSuccess, setLoadSuccess] = useState(false)
-    const inputRef = useRef<NewToggleButtonRef[]>([]);
-
-    const cleanUp = () => {
-        inputRef.current.forEach(e => e.reset())
-    }
-    
-    const newChat = () => {
-        const newConversation = {
-            text: "abcd",
-            date_created: new Date().toDateString(),
-            chat_id: "dac83f10-5b15-47c5-bfe2-20cb60508801"
-        };
-        conversations.push(newConversation)
-        updateDataElements()
-
-        // console.log('new chat added')
-    }
-
-    const updateDataElements = () => {
-        init(conversations)
-        const newDataElements = [
-            showTimeframe(monthsInReverseOrder.slice(0, 4)), 
-            showTimeframe(monthsInReverseOrder.slice(4, 15)),
-            showTimeframe(monthsInReverseOrder.slice(15))
-        ]
-        setDataElements(newDataElements)
-
-        setLoading(false)
-        setLoadSuccess(false)
-    }
-
-    const showTimeframe = (monthsToIterate: string[]) => {
-        return (
-          <span key={i++}>
-            {monthsToIterate.map((month, idx) => {
-              const values = monthMap.get(month);
-              if(values && values.length > 0) {
-                return(
-                    <div key={idx} style={{opacity:1, height:"auto", position:"relative", marginTop:"1.25rem"}}>
-                        <div style={{opacity:1}}>
-                            <div className='h3 m-0' style={{backgroundColor:"rgba(0,0,0,1)", color:"rgba(102,102,102,1)", fontWeight:"500", fontSize:"0.75rem",
-                                padding:"12px 8px 8px", wordBreak:"break-all", textOverflow:"ellipsis", 
-                                overflow:"hidden", height:"2.25rem"}}>
-                                {month}
-                            </div>
-                        </div>
-                        <ol style={{listStyle:"none", margin:"0", padding:"0"}}>
-                            {
-                                values.map((e, index) => { 
-                                    return (
-                                        <li key={index} style={{opacity: 1, height:"auto", overflow:"hidden"}}>
-                                            <NewToggleButton ref={el => {el && inputRef.current.push(el)}}  w={'212px'} h={'20px'} rightSvg={'more.svg'} title={e.text} onPrimaryAction={cleanUp} isSelected={false}></NewToggleButton>
-                                        </li>
-                                    )
-                                })
-                            }
-                        </ol>
-                    </div>
-                  )
-              }
-            })}
-          </span>
-        );
-    };
-    
+    let i = 0;
     const openTipsForGettingStarted = () => {
         let model = new Modal('#TipsForGettingStartedModel', {
             keyboard: false
@@ -130,89 +12,74 @@ function ChatGPT() {
         model.show()
     }
     
-    let dd = 0;
     useEffect(() => {
-        setTimeout(() => {
-            updateDataElements()
-        }, 1000);
-        if(dd === 0) {
+        if(i === 0) {
             // openTipsForGettingStarted()
-            console.log('----', dd)
         }
-        dd++
-
+        i++
     }, []);
 
-    const retry = () => {
-        setLoading(true)
-        setTimeout(() => {
-            updateDataElements()
-        }, 1000);
-    }
 
     return (
         <div className="container-fluid d-flex flex-row flex-nowrap align-items-center p-0" style={{backgroundColor:"white"}}>
-            {/* 左侧面板 */}
-            <div className='flex-shrink-1 h-100' style={{width:"260px", visibility:"visible", overflowX:"hidden", backgroundColor:"rgba(0,0,0,1)"}}>
-                <div style={{width:"260px", height:"100%"}}>
-                    <div className='d-flex flex-column flex-nowrap h-100' style={{minHeight:"0"}}>
-                        <div className='d-flex flex-column flex-nowrap h-100' style={{minHeight:"0", opacity:"1"}}>
-                            <div className='flex-grow-1 flex-shrink-1 w-100 h-100' style={{borderColor: "hsla(0,0%,100%,.2)", position:"relative", flexBasis:"0%"}}>
-                                <nav className='d-flex flex-column flex-nowrap w-100 h-100' style={{paddingBottom:"0.875rem", paddingLeft:"0.75rem", paddingRight:"0.75rem"}}>
-                                    
-                                    {/* New chat按钮 */}
-                                    <div style={{paddingTop:".875rem"}}>
-                                        <div style={{paddingBottom:"0"}}>
-                                            <NewChatButton w={'228px'} h={'2.5rem'} title={'New chat'} leftSvg={"NewChat.svg"} rightSvg={"NewEdit.svg"} onPrimaryAction={newChat}></NewChatButton>
-                                        </div>
-                                    </div>
-                                    {/* Conversations */}
-                                    {(loading)?
-                                    <div className='d-flex flex-column align-items-center justify-content-center' style={{height:"100%"}}>
-                                        <div className="spinner-border spinner-border-sm" role="status">
-                                            <span className="visually-hidden">Loading...</span>
-                                        </div>
-                                    </div>:
-                                        (!loadSuccess)?
-                                            <div className='d-flex flex-column align-items-center justify-content-center' style={{height:"100%"}}>
-                                                <div className='m-0 p-0 text-center' style={{color:"rgba(142,142,160,1)", fontStyle:"italic", fontSize:"14px"}}>Unable to load history
-                                                    <div style={{marginTop:".25rem"}}>
-                                                        <button className='btn btn-light' style={{fontSize:".8rem", marginTop:"8px","--bs-btn-bg":"#202123", 
-                                                            "--bs-btn-color":"rgba(142,142,160,1)", "--bs-btn-border-color":"#202123", "--bs-btn-hover-border-color":"#202123"}} onClick={retry}>Retry</button>
-                                                    </div>
-                                                </div>
-                                            </div> : 
-                                            <div className='d-flex flex-column flex-nowrap' style={{color:"rgba(236,236,241,1)", fontSize:".875rem",
-                                                lineHeight:"1.25rem", paddingBottom:".5rem", gap:".5rem", overflowY:"auto", height:"100%"}}>
-                                                <div>
-                                                    {dataElements}
-                                                </div>
-                                            </div>
-                                    }
 
-                                    {/* 底部按钮 */}
-                                    <div className='d-flex flex-column' style={{borderColor:"hsla(0,0%,100%,.2)", paddingTop:".5rem"}}>
-                                        <UpgradePlanButton w={'236px'} h={'36px'} title={'Upgrade plan'} content={'Get GPT-4, DALL·E, and more'} leftSvg='Star.svg' onPrimaryAction={() => {}}></UpgradePlanButton>
-                                    </div>
-                                    <div className="d-flex flex-row flex-nowrap align-items-center">
-                                        <div className='flex-grow-1'>
-                                            <div style={{position:"relative"}}>
-                                                <UserProfileButton w={'236px'} h={'48px'} name={'Simeon Chen'}></UserProfileButton>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </nav>
-
-                            </div>
-                        </div>
-                    </div>
+            <div className="offcanvas offcanvas-start d-flex flex-row " tabIndex={-1} id="offcanvasExample"
+                aria-labelledby="offcanvasExampleLabel" style={{backgroundColor:"transparent"}}>
+                
+                <div className="" style={{backgroundColor:"red"}}>
+                    <NewNavBar />
                 </div>
+                <div style={{backgroundColor:"red", paddingTop:".875.rem", marginRight:"-3rem",
+                    top:0, right:0, position:"absolute"}}>
+                     <button data-bs-dismiss="offcanvas" aria-label="Close">
+                        <span className="sr-only">Close sidebar</span>
+                        <img src={getIcon('Close.svg')} alt="" />
+                    </button>
+                </div>
+            </div>
+            
+            {/* 左侧面板 */}
+            <div className={`flex-shrink-1 h-100 ${'d-none d-sm-block'}`} style={{width:"260px", visibility:"visible",
+                overflowX:"hidden", backgroundColor:"rgba(0,0,0,1)"}}>
+                <NewNavBar />
             </div>
 
             {/* 右侧面板 */}
             <div className='d-flex flex-column flex-nowrap flex-shrink-1 flex-grow-1' style={{overflow:"hidden", flexBasis:"0%", backgroundColor:"white", height:"100%"}}>
                 
+                {/* 隐藏标题栏 */}
+                <div className='d-flex justify-content-between d-block d-sm-none'
+                    style={{border:"0px solid rgba(0,0,0,.15)", borderBottomWidth:"1px", minHeight:"40px", paddingLeft:".25rem", backgroundColor:"white"}}>
+                    
+                    <div>
+                        <button className='btn' data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+                            <img src={getIcon('Opensidebar.svg')} alt="" style={{width:"18px", height:"18px"}}/>
+                        </button>
+                    </div>
+                    <div className='d-flex flex-row flex-nowrap align-items-center justify-content-center'
+                         style={{gap:".25rem", cursor:"pointer", fontWeight: 500, fontSize:"1.125rem", lineHeight:"1.75rem",
+                             backgroundColor:"rgba(247,247,248,var(1))", padding:".5rem .75rem"}}>
+                        <div>
+                            ChatGPT
+                            <span style={{marginLeft:"4px",color:"#666", gap:".25rem"}}>
+                                3.5
+                            </span>
+                        </div>
+                        <img src={getIcon('Down.svg')} alt="" />
+                    </div>
+                    <div>
+                        <button className='btn'>
+                            <img src={getIcon('NewChat2.svg')} alt="" style={{width:"18px", height:"18px"}}/>
+                        </button>   
+                    </div>
+                </div>
+                <div className="d-flex flex-row align-items-center justify-content-center w-100"></div>
+                dsd
+
+
+                <main className='w-100 h-100 d-flex flex-column' style={{overflow:"auto", position:"relative"}}>
+                     d
+                </main>
             </div>
 
             {/* <!-- TipsForGettingStartedModel --> */}
@@ -275,7 +142,6 @@ function ChatGPT() {
                     </div>
                 </div>
             </div>
-
 
         </div>
     )

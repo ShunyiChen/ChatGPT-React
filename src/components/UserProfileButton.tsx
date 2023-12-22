@@ -19,7 +19,7 @@ function UserProfileButton(props: UserProfileButtonProps) {
             <div className='flex-shrink-0'>
                 <div className="d-flex flex-row align-items-center justify-content-center">
                     <div className="relative flex">
-                        <img alt="User" loading="lazy" width="32" height="32" decoding="async" data-nimg="1"  src="https://s.gravatar.com/avatar/93e37a381d6a363da4929301ca1a57cb?s=480&amp;r=pg&amp;d=https%3A%2F%2Fcdn.auth0.com%2Favatars%2Fzo.png"
+                        <img alt="User" loading="lazy" width="32" height="32" decoding="async" data-nimg="1"  src={getIcon('sh.png')}
                              style={{color: "transparent", borderRadius:"9999px", verticalAlign:"middle"}} />
                     </div>
                 </div>
