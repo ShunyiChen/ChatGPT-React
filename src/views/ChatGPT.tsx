@@ -1,10 +1,14 @@
-import { useState, useRef, useEffect, createRef  } from 'react'
+import { useState, useRef, useEffect, createRef, ForwardedRef  } from 'react'
 import { getIcon } from '../utils/Common';
 import { Modal } from 'bootstrap';
 import NewNavBar from '../components/NewNavBar';
 
 function ChatGPT() {
+    let [deg, setDeg] = useState(0)
+    let [opacity, setOpacity] = useState(0.25)
+    const [sidebarStyle, setSidebarStyle] = useState("")
     let i = 0;
+    
     const openTipsForGettingStarted = () => {
         let model = new Modal('#TipsForGettingStartedModel', {
             keyboard: false
@@ -19,6 +23,37 @@ function ChatGPT() {
         i++
     }, []);
 
+    const handleMouseEnter = () => {
+        setDeg(0)
+        setOpacity(1.0)
+        const r = setInterval(function() {
+            setDeg(deg++)
+            if (deg >= 16) {
+                clearInterval(r)
+            }
+        }, 10)
+    }
+
+    const handleMouseLeave = () => {
+        setDeg(16)
+        const r = setInterval(function() {
+            setDeg(deg--)
+            if (deg <= 0) {
+                clearInterval(r)
+                setOpacity(0.25)
+            }
+        }, 10)
+    }
+
+    const closeOrOpenSideBar = () => {
+        if(sidebarStyle === 'sidebar') {
+            setSidebarStyle('sidebarHidden')
+        } else if(sidebarStyle === 'sidebarHidden'){
+            setSidebarStyle('sidebar')
+        } else {
+            setSidebarStyle('sidebarHidden')
+        }
+    }
 
     return (
         <div className="container-fluid d-flex flex-row flex-nowrap align-items-center p-0" style={{backgroundColor:"white"}}>
@@ -27,7 +62,7 @@ function ChatGPT() {
                 aria-labelledby="offcanvasExampleLabel" style={{backgroundColor:"transparent"}}>
                 
                 <div className="" style={{backgroundColor:"red"}}>
-                    <NewNavBar />
+                    <NewNavBar/>
                 </div>
                 <div style={{backgroundColor:"red", paddingTop:".875.rem", marginRight:"-3rem",
                     top:0, right:0, position:"absolute"}}>
@@ -39,8 +74,8 @@ function ChatGPT() {
             </div>
             
             {/* 左侧面板 */}
-            <div className={`flex-shrink-1 h-100 ${'d-none d-sm-block'}`} style={{width:"260px", visibility:"visible",
-                overflowX:"hidden", backgroundColor:"rgba(0,0,0,1)"}}>
+            <div className={`flex-shrink-1 h-100 d-none d-sm-block ${sidebarStyle}`}
+                    style={{visibility:"visible", overflowX:"hidden", backgroundColor:"rgba(0,0,0,1)"}}>
                 <NewNavBar />
             </div>
 
@@ -74,11 +109,31 @@ function ChatGPT() {
                     </div>
                 </div>
                 <div className="d-flex flex-row align-items-center justify-content-center w-100"></div>
-                dsd
 
+                <main className='w-100 h-100 d-flex flex-row align-items-center justify-content-start' style={{overflow:"auto", position:"relative"}}>
+                    <div>
+                        {/* 隐藏sidebar三角按钮 */}
+                        <button className='btn p-0 m-0' style={{textTransform:"none", "--bs-btn-active-border-color":"transparent"}}>
+                            <span>
+                                <div className='d-flex flex-row align-items-center justify-content-center'
+                                    style={{opacity: `${opacity}`, width:"2rem", height:"72px"}}
+                                    onMouseEnter={handleMouseEnter}
+                                    onMouseLeave={handleMouseLeave}
+                                    onClick={closeOrOpenSideBar}>
 
-                <main className='w-100 h-100 d-flex flex-column' style={{overflow:"auto", position:"relative"}}>
-                     d
+                                    <div className='d-flex flex-column align-items-center' style={{width:"1.5rem", height:"1.5rem"}}>
+                                        <div style={{backgroundColor:"#0F0F0F", width:".25rem", height:".75rem", borderRadius:"9999px",
+                                            transform: `translateY(0.15rem) rotate(${deg}deg) translateZ(0px)`}}></div>
+                                        <div style={{backgroundColor:"#0F0F0F", width:".25rem", height:".75rem", borderRadius:"9999px",
+                                            transform: `translateY(-0.15rem) rotate(${0-deg}deg) translateZ(0px)`}}></div>
+                                    </div>
+                                </div>
+                                <span>
+
+                                </span>
+                            </span>
+                        </button>
+                    </div>
                 </main>
             </div>
 
@@ -142,10 +197,8 @@ function ChatGPT() {
                     </div>
                 </div>
             </div>
-
         </div>
     )
-
 }
 
 export default ChatGPT

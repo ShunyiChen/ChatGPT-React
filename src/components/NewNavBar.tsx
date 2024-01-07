@@ -1,14 +1,10 @@
-import React, { FC, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, Ref } from "react";
 import NewChatButton from "./NewChatButton";
 import UpgradePlanButton from "./UpgradePlanButton";
 import UserProfileButton from "./UserProfileButton";
 import NewToggleButton, { NewToggleButtonRef } from "./NewToggleButton";
 import { isDateBeforeThisYear, isDateInCurrentYearMonth, isToday, isWithinLast30Days, isWithinLast7Days, isYesterday } from "../utils/Common";
 import { dummay_conversations } from "../data/DummyData";
-
-type NewNavBarProps = {
-}
-
 
 type Conversation = {
     text: string,
@@ -54,7 +50,7 @@ function init(data: Conversation[]) {
     })
 }
 
-const NewNavBar: FC<NewNavBarProps> = ({ }) => {
+const NewNavBar = () => {
     let i = 0
     const inputRef = useRef<NewToggleButtonRef[]>([]);
     const [dataElements, setDataElements] = useState<JSX.Element[]>()
@@ -73,7 +69,6 @@ const NewNavBar: FC<NewNavBarProps> = ({ }) => {
         };
         conversations.push(newConversation)
         updateDataElements()
-
         // console.log('new chat added')
     }
 
@@ -140,7 +135,7 @@ const NewNavBar: FC<NewNavBarProps> = ({ }) => {
     }, []);
 
     return (
-        <div style={{ width: "260px", height: "100%" }}>
+        <div style={{ width: "260px", height: "100%"}}>
             <div className='d-flex flex-column flex-nowrap h-100' style={{ minHeight: "0" }}>
                 <div className='d-flex flex-column flex-nowrap h-100' style={{ minHeight: "0", opacity: "1" }}>
                     <div className='flex-grow-1 flex-shrink-1 w-100 h-100' style={{ borderColor: "hsla(0,0%,100%,.2)", position: "relative", flexBasis: "0%" }}>
@@ -209,5 +204,4 @@ const NewNavBar: FC<NewNavBarProps> = ({ }) => {
         </div>
     )
 }
-
 export default NewNavBar

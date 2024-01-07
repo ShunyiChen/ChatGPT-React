@@ -213,3 +213,29 @@ input:-webkit-autofill {
 .text-orange-300 {
   color: rgba(255,160,69,var(1));
 }
+
+/************ SideBar ************/
+.sidebar {
+  width: 260px;
+  animation: changeWidth260 0.2s;
+}
+.sidebarHidden {
+  width: 0px;
+  animation: changeWidth0 0.2s;
+}
+@keyframes changeWidth260 {
+  0% {
+      width: 0px; /* 起始状态 */
+  }
+  100% {
+      width: 260px; /* 结束状态 */
+  }
+}
+@keyframes changeWidth0 {
+  0% {
+      width: 260px; /* 起始状态 */
+  }
+  100% {
+      width: 0px; /* 结束状态 */
+  }
+}

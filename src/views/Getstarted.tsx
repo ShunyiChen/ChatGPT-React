@@ -19,7 +19,7 @@ function Getstarted() {
     const [hi, setHi] = useState(false)
     const [stop, setStop] = useState(false);
     const [typing, setTyping] = useState("")
-    const [capacity, setCapacity] = useState(true)
+    const [capacity, setCapacity] = useState(false)
 
     const msg = [
         { topic: "Brainstorm names", info: ["for an orange cat we're adopting from the shelter", "for my fantasy football team"], wait: 10000 },
