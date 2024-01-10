@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, Ref } from "react";
+import { useEffect, useRef, useState, Ref, forwardRef, useImperativeHandle } from "react";
 import NewChatButton from "./NewChatButton";
 import UpgradePlanButton from "./UpgradePlanButton";
 import UserProfileButton from "./UserProfileButton";
@@ -50,12 +50,44 @@ function init(data: Conversation[]) {
     })
 }
 
-const NewNavBar = () => {
+export type NewNavBarProps = {
+}
+
+export type NewNavBarRef = {
+    fadeIn: () => void
+    fadeOut: () => void
+}
+
+const NewNavBar = (props:NewNavBarProps, ref:Ref<NewNavBarRef>) => {
     let i = 0
     const inputRef = useRef<NewToggleButtonRef[]>([]);
     const [dataElements, setDataElements] = useState<JSX.Element[]>()
     const [loading, setLoading] = useState(true)
     const [loadSuccess, setLoadSuccess] = useState(false)
+    let [opacity, setOpacity] = useState(1.0)
+
+    // 淡入
+    const fadeIn = () => {
+        setOpacity(1.0)
+        const r = setInterval(function() {
+            setOpacity(opacity-=0.05)
+            if(opacity <= 0.5) {
+                clearInterval(r)
+            }
+        }, 10)
+
+    }
+
+    // 淡出
+    const fadeOut = () => {
+        setOpacity(0.5)
+        const r = setInterval(function() {
+            setOpacity(opacity+=0.05)
+            if(opacity >= 1.0) {
+                clearInterval(r)
+            }
+        }, 10)
+    }
 
     const cleanUp = () => {
         inputRef.current.forEach(e => e.reset())
@@ -134,8 +166,13 @@ const NewNavBar = () => {
         }, 1000);
     }, []);
 
+    useImperativeHandle(ref, () => ({
+        fadeIn,
+        fadeOut
+    }))
+
     return (
-        <div style={{ width: "260px", height: "100%"}}>
+        <div style={{ width: "260px", height: "100%", opacity:`${opacity}`}}>
             <div className='d-flex flex-column flex-nowrap h-100' style={{ minHeight: "0" }}>
                 <div className='d-flex flex-column flex-nowrap h-100' style={{ minHeight: "0", opacity: "1" }}>
                     <div className='flex-grow-1 flex-shrink-1 w-100 h-100' style={{ borderColor: "hsla(0,0%,100%,.2)", position: "relative", flexBasis: "0%" }}>
@@ -204,4 +241,4 @@ const NewNavBar = () => {
         </div>
     )
 }
-export default NewNavBar
+export default forwardRef(NewNavBar)

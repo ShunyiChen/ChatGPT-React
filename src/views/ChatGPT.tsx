@@ -1,12 +1,17 @@
 import { useState, useRef, useEffect, createRef, ForwardedRef  } from 'react'
 import { getIcon } from '../utils/Common';
-import { Modal } from 'bootstrap';
-import NewNavBar from '../components/NewNavBar';
+import { Modal, Tooltip } from 'bootstrap';
+import NewNavBar, { NewNavBarRef } from '../components/NewNavBar';
+
+
+let tooltipList: any = null; 
+
 
 function ChatGPT() {
     let [deg, setDeg] = useState(0)
     let [opacity, setOpacity] = useState(0.25)
     const [sidebarStyle, setSidebarStyle] = useState("")
+    const newNavBarRef = useRef<NewNavBarRef>(null);
     let i = 0;
     
     const openTipsForGettingStarted = () => {
@@ -19,40 +24,82 @@ function ChatGPT() {
     useEffect(() => {
         if(i === 0) {
             // openTipsForGettingStarted()
+            const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+            tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new Tooltip(tooltipTriggerEl))
         }
         i++
     }, []);
 
     const handleMouseEnter = () => {
-        setDeg(0)
-        setOpacity(1.0)
-        const r = setInterval(function() {
-            setDeg(deg++)
-            if (deg >= 16) {
-                clearInterval(r)
-            }
-        }, 10)
+        // 打开状态
+        if(sidebarStyle !== 'sidebarHidden') {
+            newNavBarRef.current?.fadeIn()
+            setOpacity(1.0)
+            setDeg(0)
+            const r = setInterval(function() {
+                setDeg(deg++)
+                if(deg >= 16) {
+                    clearInterval(r)
+                }
+            }, 10)
+        }
+        // 关闭状态
+        else {
+            const c = setInterval(function() {
+                setOpacity(opacity+=0.05)
+                if(opacity >= 1) {
+                    clearInterval(c)
+                    setOpacity(1)
+                }
+            }, 10)
+        }
     }
 
     const handleMouseLeave = () => {
-        setDeg(16)
-        const r = setInterval(function() {
-            setDeg(deg--)
-            if (deg <= 0) {
-                clearInterval(r)
-                setOpacity(0.25)
-            }
-        }, 10)
+        // 打开状态
+        if(sidebarStyle !== 'sidebarHidden') {
+            newNavBarRef.current?.fadeOut()
+            setDeg(16)
+            const r = setInterval(function() {
+                setDeg(deg--)
+                if(deg <= 0) {
+                    clearInterval(r)
+                    setOpacity(0.25)
+                }
+            }, 10)
+        }
+        // 关闭状态
+        else {
+            const c = setInterval(function() {
+                setOpacity(opacity-=0.05)
+                if(opacity <= 0.25) {
+                    clearInterval(c)
+                    setOpacity(0.25)
+                }
+            }, 10)
+        }
     }
 
     const closeOrOpenSideBar = () => {
+        //更改tooltip内容
+        tooltipList[0].setContent({ '.tooltip-inner': 'Open sidebar' })
+        setOpacity(0.25)
+        setDeg(-15)
+
         if(sidebarStyle === 'sidebar') {
             setSidebarStyle('sidebarHidden')
         } else if(sidebarStyle === 'sidebarHidden'){
             setSidebarStyle('sidebar')
+            //更改tooltip内容
+            tooltipList[0].setContent({ '.tooltip-inner': 'Close sidebar' })
+            
+            setOpacity(1)
+            setDeg(0)
         } else {
             setSidebarStyle('sidebarHidden')
         }
+        //点击后隐藏tooltip
+        tooltipList[0].hide()
     }
 
     return (
@@ -62,7 +109,7 @@ function ChatGPT() {
                 aria-labelledby="offcanvasExampleLabel" style={{backgroundColor:"transparent"}}>
                 
                 <div className="" style={{backgroundColor:"red"}}>
-                    <NewNavBar/>
+                    <NewNavBar ref={newNavBarRef}/>
                 </div>
                 <div style={{backgroundColor:"red", paddingTop:".875.rem", marginRight:"-3rem",
                     top:0, right:0, position:"absolute"}}>
@@ -76,7 +123,7 @@ function ChatGPT() {
             {/* 左侧面板 */}
             <div className={`flex-shrink-1 h-100 d-none d-sm-block ${sidebarStyle}`}
                     style={{visibility:"visible", overflowX:"hidden", backgroundColor:"rgba(0,0,0,1)"}}>
-                <NewNavBar />
+                <NewNavBar ref={newNavBarRef}/>
             </div>
 
             {/* 右侧面板 */}
@@ -105,7 +152,7 @@ function ChatGPT() {
                     <div>
                         <button className='btn'>
                             <img src={getIcon('NewChat2.svg')} alt="" style={{width:"18px", height:"18px"}}/>
-                        </button>   
+                        </button>
                     </div>
                 </div>
                 <div className="d-flex flex-row align-items-center justify-content-center w-100"></div>
@@ -113,7 +160,8 @@ function ChatGPT() {
                 <main className='w-100 h-100 d-flex flex-row align-items-center justify-content-start' style={{overflow:"auto", position:"relative"}}>
                     <div>
                         {/* 隐藏sidebar三角按钮 */}
-                        <button className='btn p-0 m-0' style={{textTransform:"none", "--bs-btn-active-border-color":"transparent"}}>
+                        <button type="button" className='btn p-0 m-0' style={{textTransform:"none", "--bs-btn-active-border-color":"transparent"}}
+                            data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Close sidebar">
                             <span>
                                 <div className='d-flex flex-row align-items-center justify-content-center'
                                     style={{opacity: `${opacity}`, width:"2rem", height:"72px"}}
@@ -129,7 +177,7 @@ function ChatGPT() {
                                     </div>
                                 </div>
                                 <span>
-
+                                    
                                 </span>
                             </span>
                         </button>
